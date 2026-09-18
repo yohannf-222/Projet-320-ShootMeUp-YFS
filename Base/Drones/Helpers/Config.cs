@@ -12,6 +12,7 @@ namespace Drones.Helpers
         public static int GAMESPACE_HEIGHT = 600;
 
         public static int SPEED = 10;
+        public static int GOUVERNAIL_SPEED = 10;        
 
     }
 }
