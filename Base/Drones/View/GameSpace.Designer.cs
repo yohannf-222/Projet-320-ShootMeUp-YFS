@@ -44,7 +44,8 @@
             ClientSize = new Size(284, 261);
             Name = "AirSpace";
             Text = "AirSpace";
-            KeyDown += AirSpace_KeyDown;
+            KeyDown += GameSpace_KeyDown;
+            KeyUp += GameSpace_KeyUp;
             ResumeLayout(false);
 
         }

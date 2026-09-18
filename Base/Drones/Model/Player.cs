@@ -16,20 +16,27 @@ namespace Drones.Model
         private double _y;                          // Position en Y depuis le haut de l'espace 
         private State _state;
 
-        public enum State { ALIVE, DEAD, STOPPED};
+        public enum State { ALIVE, DEAD, STOPPED };
 
         // Constructeur
         public Player(int x, int y)
         {
             this._x = x;
-            this._y = y;           
+            this._y = y;
             this._state = State.ALIVE;
         }
 
         #region ================ Modelisation du joueur et de son comportement ================
         public void Update(int interval)
         {
-            _x++;            
+            if (_state == State.ALIVE)      //si vivant
+            {
+                // bouger à droite ou gauche selon les touches pressées
+                if (GameSpace.keysPressed.Contains('D') && _x < Config.GAMESPACE_WIDTH - Config.SPEED)
+                    _x += Config.SPEED;
+                if (GameSpace.keysPressed.Contains('A') && _x > Config.SPEED)
+                    _x -= Config.SPEED;
+            }
         }
         #endregion
 

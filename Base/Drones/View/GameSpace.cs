@@ -1,22 +1,25 @@
 using Drones.Model;
+using Drones.Helpers;
 namespace Drones
 {
-    // La classe AirSpace représente le territoire au dessus duquel les drones peuvent voler
+    // La classe GameSpace représente la zone du jeu
     // Il s'agit d'un formulaire (une fenêtre) qui montre une vue 2D depuis en dessus
     // Il n'y a donc pas de notion d'altitude qui intervient
 
     public partial class GameSpace : Form
     {
-        public static readonly int WIDTH = 1200;        // Dimensions of the gamespace
-        public static readonly int HEIGHT = 600;
+        public static List<char> keysPressed = new List<char>();          // Liste contenant les touches qui sont en train d'être pressées 
+        
+        public static readonly int WIDTH = Config.GAMESPACE_WIDTH;        // Dimensions du gamespace
+        public static readonly int HEIGHT = Config.GAMESPACE_HEIGHT;
 
-        // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
+        // Le joueur
         private Player _player;
 
         BufferedGraphicsContext currentContext;
         BufferedGraphics gamespace;
 
-        // Initialisation de l'espace aérien avec un certain nombre de drones
+        // Initialisation de l'espace du jeu avec le joueur
         public GameSpace(Player player)
         {
             InitializeComponent();
@@ -53,14 +56,19 @@ namespace Drones
             this.Render();
         }
 
-        private void AirSpace_KeyDown(object sender, KeyEventArgs e)
+        private void GameSpace_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            if (keysPressed.Contains(Convert.ToChar(e.KeyValue)) == false)
             {
-                case Keys.Space:
-                    //_player.ChangeDirection();
-                    Console.WriteLine("ploh");
-                    break;
+                keysPressed.Add(Convert.ToChar(e.KeyValue));
+            }            
+        }
+
+        private void GameSpace_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (keysPressed.Contains(Convert.ToChar(e.KeyValue)))
+            {
+                keysPressed.Remove(Convert.ToChar(e.KeyValue));
             }
         }
     }
