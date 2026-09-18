@@ -11,7 +11,7 @@ namespace Drones.Helpers
         public static int GAMESPACE_WIDTH = 1200;
         public static int GAMESPACE_HEIGHT = 600;
 
-        public static int SPEED = 100;
+        public static int SPEED = 10;
 
     }
 }
