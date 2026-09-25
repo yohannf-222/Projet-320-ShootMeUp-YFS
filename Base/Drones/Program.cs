@@ -15,7 +15,7 @@ namespace Drones
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            Player player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 100);
+            Player player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
 
             List<Gouvernail> gouvernails = new List<Gouvernail>();
             gouvernails.Add(new Gouvernail(100, 100, 600, 300));

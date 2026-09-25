@@ -78,7 +78,7 @@ namespace Drones.Model
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(_x) - 50, Convert.ToSingle(_y) - 50, 26 * Config.PIXEL_SIZE_MULTIPLYER, 43 * Config.PIXEL_SIZE_MULTIPLYER);
+            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(_x), Convert.ToSingle(_y), 26 * Config.PIXEL_SIZE_MULTIPLYER, 43 * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }
