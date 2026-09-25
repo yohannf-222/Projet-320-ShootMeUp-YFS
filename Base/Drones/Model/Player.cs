@@ -37,13 +37,9 @@ namespace Drones.Model
                 // bouger à droite ou gauche selon les touches pressées
                 if (GameSpace.keysPressed.Contains('D'))
                 {
-
                     if (_x < Config.GAMESPACE_WIDTH - speed)
-                    {
                         _x += speed;
-                    }
-                    else 
-                    {
+                    else {
                         _x = Config.GAMESPACE_WIDTH;
                         speedMultiplyer = 1;
                     }
@@ -51,13 +47,9 @@ namespace Drones.Model
 
                 if (GameSpace.keysPressed.Contains('A'))
                 {
-
                     if (_x > speed)
-                    {
                         _x -= speed;
-                    }
-                    else
-                    {
+                    else {
                         _x = 0;
                         speedMultiplyer = 1;
                     }

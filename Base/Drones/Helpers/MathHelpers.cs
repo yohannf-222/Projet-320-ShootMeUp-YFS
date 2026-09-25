@@ -13,6 +13,7 @@ namespace Drones.Helpers
             double deltaX = x2 - x1;
             double deltaY = y2 - y1;
             return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-        }
+        }                 
+        
     }
 }
