@@ -16,11 +16,14 @@ namespace Drones
         // Le joueur
         private Player _player;
 
+        // Les gouvernails
+        private List<Gouvernail> _gouvernails;
+
         BufferedGraphicsContext currentContext;
         BufferedGraphics gamespace;
 
         // Initialisation de l'espace du jeu avec le joueur
-        public GameSpace(Player player)
+        public GameSpace(Player player, List<Gouvernail> gouvernails)
         {
             InitializeComponent();
             ClientSize = new Size(WIDTH, HEIGHT);
@@ -31,6 +34,7 @@ namespace Drones
             // dimensions the same size as the drawing surface of the form.
             gamespace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             this._player = player;
+            this._gouvernails = gouvernails;
         }
 
         // Affichage de la situation actuelle
@@ -39,13 +43,21 @@ namespace Drones
             gamespace.Graphics.Clear(Color.AliceBlue);
 
             _player.Render(gamespace);
-
+            foreach (Gouvernail gouvernail in _gouvernails)
+            {
+                gouvernail.Render(gamespace);
+            }
             gamespace.Render();
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
+            foreach (Gouvernail gouvernail in _gouvernails)
+            {
+                gouvernail.Update();
+            }
+
             _player.Update(interval);
         }
 
