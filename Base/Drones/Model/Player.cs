@@ -31,7 +31,7 @@ namespace Drones.Model
         public void Update(int interval)
         {
             if (_state == State.ALIVE)      //si vivant
-            {                                               
+            {
                 double speed = Config.SPEED * speedMultiplyer;
 
                 // bouger à droite ou gauche selon les touches pressées
@@ -39,7 +39,8 @@ namespace Drones.Model
                 {
                     if (_x < Config.GAMESPACE_WIDTH - speed)
                         _x += speed;
-                    else {
+                    else
+                    {
                         _x = Config.GAMESPACE_WIDTH;
                         speedMultiplyer = 1;
                     }
@@ -49,11 +50,12 @@ namespace Drones.Model
                 {
                     if (_x > speed)
                         _x -= speed;
-                    else {
+                    else
+                    {
                         _x = 0;
                         speedMultiplyer = 1;
                     }
-                }                             
+                }
 
                 // Le joueur accélère tant qu'il maintient, redevient lent lorsqu'il arrête
                 if (GameSpace.keysPressed.Contains('A') || GameSpace.keysPressed.Contains('D'))
@@ -63,7 +65,7 @@ namespace Drones.Model
                 else
                 {
                     speedMultiplyer = 1;
-                }                
+                }
             }
         }
         #endregion
@@ -76,7 +78,7 @@ namespace Drones.Model
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(_x) - 50, Convert.ToSingle(_y) - 50, 26 * 3, 43 * 3);
+            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(_x) - 50, Convert.ToSingle(_y) - 50, 26 * Config.PIXEL_SIZE_MULTIPLYER, 43 * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }

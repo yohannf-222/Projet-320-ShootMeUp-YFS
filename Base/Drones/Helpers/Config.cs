@@ -14,5 +14,7 @@ namespace Drones.Helpers
         public static int SPEED = 10;
         public static int GOUVERNAIL_SPEED = 10;
 
+        public static int PIXEL_SIZE_MULTIPLYER = 3;
+
     }
 }
