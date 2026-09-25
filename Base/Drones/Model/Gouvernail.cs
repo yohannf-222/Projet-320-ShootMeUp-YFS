@@ -14,12 +14,16 @@ namespace Drones.Model
         private double _x;                              // Position en_xdepuis la gauche de l'espace 
         private double _y;                              // Position en Y depuis le haut de l'espace
 
-        private double _directionX;                      // Position de la souris quand on clique.
-        private double _directionY;                      // Position de la souris quand on clique.
-
         private double _xIncrement;
         private double _yIncrement;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="targetX">Position X de la souris quand on clique.</param>
+        /// <param name="targetY">Position Y de la souris quand on clique.</param>
         public Gouvernail(double x, double y, double targetX, double targetY)
         {
             _x = x;
