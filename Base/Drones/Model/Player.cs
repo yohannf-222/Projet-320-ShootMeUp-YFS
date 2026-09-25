@@ -15,7 +15,7 @@ namespace Drones.Model
         private double _x;                          // Position en X depuis la gauche de l'espace 
         private double _y;                          // Position en Y depuis le haut de l'espace 
         private State _state;                       // l'état du joueur
-        int speedMultiplyer = 1;                    // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
+        private int speedMultiplyer = 1;            // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
 
         public enum State { ALIVE, DEAD, STOPPED };
 
@@ -35,11 +35,33 @@ namespace Drones.Model
                 double speed = Config.SPEED * speedMultiplyer;
 
                 // bouger à droite ou gauche selon les touches pressées
-                if (GameSpace.keysPressed.Contains('D') && _x < Config.GAMESPACE_WIDTH - speed)
-                    _x += speed;             
-                
-                if (GameSpace.keysPressed.Contains('A') && _x > speed)
-                    _x -= speed;                
+                if (GameSpace.keysPressed.Contains('D'))
+                {
+
+                    if (_x < Config.GAMESPACE_WIDTH - speed)
+                    {
+                        _x += speed;
+                    }
+                    else 
+                    {
+                        _x = Config.GAMESPACE_WIDTH;
+                        speedMultiplyer = 1;
+                    }
+                }
+
+                if (GameSpace.keysPressed.Contains('A'))
+                {
+
+                    if (_x > speed)
+                    {
+                        _x -= speed;
+                    }
+                    else
+                    {
+                        _x = 0;
+                        speedMultiplyer = 1;
+                    }
+                }                             
 
                 // Le joueur accélère tant qu'il maintient, redevient lent lorsqu'il arrête
                 if (GameSpace.keysPressed.Contains('A') || GameSpace.keysPressed.Contains('D'))
