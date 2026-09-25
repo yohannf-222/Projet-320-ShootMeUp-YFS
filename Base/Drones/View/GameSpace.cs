@@ -9,13 +9,14 @@ namespace Drones
     public partial class GameSpace : Form
     {
         public static List<char> keysPressed = new List<char>();          // Liste contenant les touches qui sont en train d'être pressées 
-        
+
         public static readonly int WIDTH = Config.GAMESPACE_WIDTH;        // Dimensions du gamespace
         public static readonly int HEIGHT = Config.GAMESPACE_HEIGHT;
 
+        //les clics de la souris
+        public static MouseEventArgs? _mouse;
         // Le joueur
         private Player _player;
-
         // Les gouvernails
         private List<Gouvernail> _gouvernails;
 
@@ -58,7 +59,9 @@ namespace Drones
                 gouvernail.Update();
             }
 
-            _player.Update(interval);
+            _player.Update(interval, _mouse, ref _gouvernails);
+
+            _mouse = null;
         }
 
         // Méthode appelée à chaque frame
@@ -73,7 +76,7 @@ namespace Drones
             if (keysPressed.Contains(Convert.ToChar(e.KeyValue)) == false)
             {
                 keysPressed.Add(Convert.ToChar(e.KeyValue));
-            }            
+            }
         }
 
         private void GameSpace_KeyUp(object sender, KeyEventArgs e)
@@ -82,6 +85,16 @@ namespace Drones
             {
                 keysPressed.Remove(Convert.ToChar(e.KeyValue));
             }
+        }
+
+        public void mouseClick(object sender, MouseEventArgs mouse)
+        {
+            Console.Write(mouse.Button);
+        }
+
+        private void PlayerMouseClick(object sender, MouseEventArgs e)
+        {
+            _mouse = e;
         }
     }
 }

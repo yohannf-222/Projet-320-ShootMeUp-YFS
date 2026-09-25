@@ -37,15 +37,16 @@
             ticker.Enabled = true;
             ticker.Tick += NewFrame;
             // 
-            // AirSpace
+            // GameSpace
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(284, 261);
-            Name = "AirSpace";
+            Name = "GameSpace";
             Text = "AirSpace";
             KeyDown += GameSpace_KeyDown;
             KeyUp += GameSpace_KeyUp;
+            this.MouseClick += this.PlayerMouseClick;
             ResumeLayout(false);
 
         }
