@@ -14,8 +14,8 @@ namespace Drones.Model
 
         private double _x;                          // Position en X depuis la gauche de l'espace 
         private double _y;                          // Position en Y depuis le haut de l'espace 
-        private static readonly int WIDTH;                 // Dimension du joueur, largeur 
-        private static readonly int HEIGHT;                 // Dimension du joueur, hauteur
+        private static readonly int WIDTH;          // Dimension du joueur, largeur 
+        private static readonly int HEIGHT;         // Dimension du joueur, hauteur
         private State _state;                       // l'état du joueur
         private int speedMultiplyer = 1;            // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
         private int _cooldown = 20;
