@@ -70,24 +70,27 @@ namespace Drones.Model
 
         public void Render(BufferedGraphics drawingSpace)
         {
+            Image obstacle = null;
             switch (State)
             {
                 case 0:
+                    obstacle = null;
                     break;
                 case 1:
-                    drawingSpace.Graphics.DrawImage(Resources.Obstacle4, Convert.ToSingle(_x), Convert.ToSingle(_y), 37 * Config.PIXEL_SIZE_MULTIPLYER, 38 * Config.PIXEL_SIZE_MULTIPLYER);
+                    obstacle = Resources.Obstacle4;
                     break;
                 case 2:
-                    drawingSpace.Graphics.DrawImage(Resources.Obstacle3, Convert.ToSingle(_x), Convert.ToSingle(_y), 37 * Config.PIXEL_SIZE_MULTIPLYER, 38 * Config.PIXEL_SIZE_MULTIPLYER);
+                    obstacle = Resources.Obstacle3;
                     break;
                 case 3:
-                    drawingSpace.Graphics.DrawImage(Resources.Obstacle2, Convert.ToSingle(_x), Convert.ToSingle(_y), 37 * Config.PIXEL_SIZE_MULTIPLYER, 38 * Config.PIXEL_SIZE_MULTIPLYER);
+                    obstacle = Resources.Obstacle2;
                     break;
                 case 4:
-                default:
-                    drawingSpace.Graphics.DrawImage(Resources.Obstacle1, Convert.ToSingle(_x), Convert.ToSingle(_y), 37 * Config.PIXEL_SIZE_MULTIPLYER, 38 * Config.PIXEL_SIZE_MULTIPLYER);
+                    obstacle = Resources.Obstacle1;
                     break;
             }
+            if (obstacle != null)   
+                drawingSpace.Graphics.DrawImage(obstacle, Convert.ToSingle(_x), Convert.ToSingle(_y), 37 * Config.PIXEL_SIZE_MULTIPLYER, 38 * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }
