@@ -15,11 +15,14 @@ namespace Drones.Model
         private double _y;                          // Position en Y depuis le haut de l'espace 
         private int _hp;                            // Le nombre de projectiles qui peuvent encore être 
         private int _state;
+        public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;
+        public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;
 
         public int Hp
         {
             get => _hp;
-            set{
+            set
+            {
                 if (Hp > Config.OBSTACLE_HP)
                     _hp = Config.OBSTACLE_HP;
                 else if (Hp < 0)
@@ -31,7 +34,8 @@ namespace Drones.Model
         public int State
         {
             get => _state;
-            set{
+            set
+            {
                 if (State < 0)
                     _state = 0;
                 else
@@ -49,11 +53,11 @@ namespace Drones.Model
         public void Update(int interval)
         {
             // Prendre les hp et trouver dans quel état l'obstacle est, chaque quart de vie augmente l'état
-            State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));            
+            State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));
             //Régénération des obstacles
             if (Hp < Config.OBSTACLE_HP)
                 Hp++;
-        }        
+        }
 
         private void GetHit(int damage)
         {
@@ -84,8 +88,8 @@ namespace Drones.Model
                     obstacle = Resources.Obstacle1;
                     break;
             }
-            if (obstacle != null)   
-                drawingSpace.Graphics.DrawImage(obstacle, Convert.ToSingle(_x), Convert.ToSingle(_y), 37 * Config.PIXEL_SIZE_MULTIPLYER, 38 * Config.PIXEL_SIZE_MULTIPLYER);
+            if (obstacle != null)
+                drawingSpace.Graphics.DrawImage(obstacle, Convert.ToSingle(_x), Convert.ToSingle(_y), width, height);
         }
         #endregion
     }
