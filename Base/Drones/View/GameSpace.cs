@@ -19,12 +19,14 @@ namespace Drones
         private Player _player;
         // Les gouvernails
         private List<Gouvernail> _gouvernails;
+        //les obstacles
+        private List<Obstacle> _obstacles;
 
         BufferedGraphicsContext currentContext;
         BufferedGraphics gamespace;
 
         // Initialisation de l'espace du jeu avec le joueur
-        public GameSpace(Player player, List<Gouvernail> gouvernails)
+        public GameSpace(Player player, List<Gouvernail> gouvernails, List<Obstacle> obstacles)
         {
             InitializeComponent();
             ClientSize = new Size(WIDTH, HEIGHT);
@@ -36,6 +38,7 @@ namespace Drones
             gamespace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             this._player = player;
             this._gouvernails = gouvernails;
+            this._obstacles = obstacles;
         }
 
         // Affichage de la situation actuelle
@@ -48,6 +51,10 @@ namespace Drones
             {
                 gouvernail.Render(gamespace);
             }
+            foreach (Obstacle obstacle in _obstacles)
+            {
+                obstacle.Render(gamespace);
+            }
             gamespace.Render();
         }
 
@@ -58,10 +65,13 @@ namespace Drones
             {
                 gouvernail.Update();
             }
-
+            foreach (Obstacle obstacle in _obstacles)
+            {
+                obstacle.Update(interval);
+            }
             _player.Update(interval, _mouse, ref _gouvernails);
 
-            _mouse = null;
+            _mouse = null;           
         }
 
         // Méthode appelée à chaque frame
@@ -69,6 +79,11 @@ namespace Drones
         {
             this.Update(ticker.Interval);
             this.Render();
+        }
+
+        private void ManageHits(ref List<Gouvernail> gouvernails, Player player, List<Obstacle> obstacles)
+        {
+            
         }
 
         private void GameSpace_KeyDown(object sender, KeyEventArgs e)
