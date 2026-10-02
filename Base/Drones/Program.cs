@@ -20,6 +20,10 @@ namespace Drones
             List<Gouvernail> gouvernails = new List<Gouvernail>();
             List<Obstacle> obstacles = new List<Obstacle>();
             obstacles.Add(new Obstacle(200, 350));
+            obstacles.Add(new Obstacle(400, 350));
+            obstacles.Add(new Obstacle(600, 350));
+            obstacles.Add(new Obstacle(800, 350));
+            obstacles.Add(new Obstacle(1000, 350));
 
             // Démarrage
             Application.Run(new GameSpace(player, gouvernails, obstacles));

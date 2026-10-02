@@ -51,12 +51,10 @@ namespace Drones.Model
         public void Update(int interval)
         {
             // Prendre les hp et trouver dans quel état l'obstacle est, chaque quart de vie augmente l'état
-            State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));
-            Console.WriteLine(State);
+            State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));            
             //Régénération des obstacles
-            //if (Hp < Config.OBSTACLE_HP)
-            //    Hp++;
-            Hp -= 2;
+            if (Hp < Config.OBSTACLE_HP)
+                Hp++;
 
         }        
 
