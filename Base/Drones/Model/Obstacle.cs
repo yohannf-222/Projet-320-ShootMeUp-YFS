@@ -23,9 +23,9 @@ namespace Drones.Model
             get => _hp;
             set{
                 if (Hp > Config.OBSTACLE_HP)
-                    Hp = Config.OBSTACLE_HP;
+                    _hp = Config.OBSTACLE_HP;
                 else if (Hp < 0)
-                    Hp = 0;
+                    _hp = 0;
                 else
                     _hp = value;
             }
