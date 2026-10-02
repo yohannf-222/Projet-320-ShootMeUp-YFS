@@ -16,6 +16,10 @@ namespace Drones.Helpers
 
         public static int PIXEL_SIZE_MULTIPLYER = 3;    // Ratio de taille des sprites dans le jeu par rapport à leur nombre de pixel réel
         public static int GOUVERNAIL_COOLDOWN = 20;     // En nombre de frames
+        public static int GOUVERNAIL_DAMAGE = 20;
+        public static int GOUVERNAIL_RADIUS = 42;
+
+        public static int OBSTACLE_HP = 80;             // En nombre de coups
 
     }
 }
