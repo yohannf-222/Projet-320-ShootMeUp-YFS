@@ -15,8 +15,6 @@ namespace Drones.Model
         private double _y;                          // Position en Y depuis le haut de l'espace 
         private int _hp;                            // Le nombre de projectiles qui peuvent encore être 
         private int _state;
-        private int _width;
-        private int _height;
 
         public int Hp
         {
@@ -55,7 +53,6 @@ namespace Drones.Model
             //Régénération des obstacles
             if (Hp < Config.OBSTACLE_HP)
                 Hp++;
-
         }        
 
         private void GetHit(int damage)
