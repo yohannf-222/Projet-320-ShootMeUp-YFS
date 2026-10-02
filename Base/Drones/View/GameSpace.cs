@@ -83,7 +83,13 @@ namespace Drones
 
         private void ManageHits(ref List<Gouvernail> gouvernails, Player player, List<Obstacle> obstacles)
         {
-            
+            for (int i = obstacles.Count - 1; i >= 0; i--)
+            {
+                for (int j = gouvernails.Count - 1; j >= 0; j--)
+                {
+                    
+                }
+            }
         }
 
         private void GameSpace_KeyDown(object sender, KeyEventArgs e)
