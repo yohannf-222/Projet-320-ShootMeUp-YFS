@@ -17,21 +17,24 @@ namespace Drones.Model
         private double _xIncrement;
         private double _yIncrement;
 
+        public double X { get => _x; set => _x = value; }
+        public double Y { get => _y; set => _y = value; }
+
         /// <summary>
-        /// 
+        /// Projectiles du joueur, qui se déplacent vers la position de la souris quand on clique
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">position x</param>
+        /// <param name="y">position y</param>
         /// <param name="targetX">Position X de la souris quand on clique.</param>
         /// <param name="targetY">Position Y de la souris quand on clique.</param>
         public Gouvernail(double x, double y, double targetX, double targetY)
         {
-            _x = x;
-            _y = y;
+            X = x;
+            Y = y;
 
-            double deltaX = targetX - _x;
-            double deltaY = targetY - _y;
-            double distance = MathHelpers.CalculateDistance(_x, _y, targetX, targetY);
+            double deltaX = targetX - X;
+            double deltaY = targetY - Y;
+            double distance = MathHelpers.CalculateDistance(X, Y, targetX, targetY);
             this._xIncrement = deltaX / distance * Config.GOUVERNAIL_SPEED;
             this._yIncrement = deltaY / distance * Config.GOUVERNAIL_SPEED;
         }
@@ -39,8 +42,8 @@ namespace Drones.Model
         #region ================ Modelisation du joueur et de son comportement ================
         public void Update()
         {
-            _x += _xIncrement;
-            _y += _yIncrement;
+            X += _xIncrement;
+            Y += _yIncrement;
         }
         #endregion
 
@@ -49,7 +52,7 @@ namespace Drones.Model
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(_x) - Config.GOUVERNAIL_RADIUS, Convert.ToSingle(_y) - Config.GOUVERNAIL_RADIUS, 42 * Config.PIXEL_SIZE_MULTIPLYER, 42 * Config.PIXEL_SIZE_MULTIPLYER);
+            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - Config.GOUVERNAIL_RADIUS, Convert.ToSingle(Y) - Config.GOUVERNAIL_RADIUS, 42 * Config.PIXEL_SIZE_MULTIPLYER, 42 * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }
