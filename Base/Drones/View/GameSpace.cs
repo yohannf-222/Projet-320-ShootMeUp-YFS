@@ -1,5 +1,6 @@
-using Drones.Model;
 using Drones.Helpers;
+using Drones.Model;
+using System.Numerics;
 namespace Drones
 {
     // La classe GameSpace représente la zone du jeu
@@ -70,7 +71,7 @@ namespace Drones
                 obstacle.Update(interval);
             }
             _player.Update(interval, _mouse, ref _gouvernails);
-
+            ManageHits(ref _gouvernails, _player, _obstacles);
             _mouse = null;           
         }
 
@@ -81,13 +82,30 @@ namespace Drones
             this.Render();
         }
 
+        /// <summary>
+        /// Supprime les projectiles qui touchent un obstacle et font des dégats à l'élément touché. 
+        /// </summary>
+        /// <param name="gouvernails"></param>
+        /// <param name="player"></param>
+        /// <param name="obstacles"></param>
         private void ManageHits(ref List<Gouvernail> gouvernails, Player player, List<Obstacle> obstacles)
         {
             for (int i = obstacles.Count - 1; i >= 0; i--)
             {
                 for (int j = gouvernails.Count - 1; j >= 0; j--)
                 {
-                    
+                    if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, gouvernails[j].X, gouvernails[j].Y, Config.GOUVERNAIL_RADIUS)
+                        && obstacles[i].State > 0)
+                    {                        
+                        gouvernails.RemoveAt(j);
+                        obstacles[i].GetHit(Config.GOUVERNAIL_DAMAGE);
+                    }
+
+                    if (gouvernails[j].X > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[j].X < -(Config.OBJECT_DELETION_MARGIN)
+                        || gouvernails[j].Y > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[j].Y < -(Config.OBJECT_DELETION_MARGIN))
+                    {
+                        gouvernails.RemoveAt(j);
+                    }
                 }
             }
         }

@@ -13,12 +13,12 @@ namespace Drones.Model
         static int totHp = Config.OBSTACLE_HP;
         private double _x;                          // Position en X depuis la gauche de l'espace 
         private double _y;                          // Position en Y depuis le haut de l'espace 
-        private int _hp;                            // Le nombre de projectiles qui peuvent encore être 
+        private double _hp;                            // Le nombre de projectiles qui peuvent encore être 
         private int _state;
         public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;
         public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;
 
-        public int Hp
+        public double Hp
         {
             get => _hp;
             set
@@ -43,10 +43,13 @@ namespace Drones.Model
             }
         }
 
+        public double X { get => _x; set => _x = value; }
+        public double Y { get => _y; set => _y = value; }
+
         public Obstacle(int x, int y)
         {
-            this._x = x;
-            this._y = y;
+            this.X = x;
+            this.Y = y;
             this._hp = Config.OBSTACLE_HP;
         }
         #region ================ Modelisation du joueur et de son comportement ================
@@ -56,10 +59,10 @@ namespace Drones.Model
             State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));
             //Régénération des obstacles
             if (Hp < Config.OBSTACLE_HP)
-                Hp++;
+                Hp += 0.5;
         }
 
-        private void GetHit(int damage)
+        public void GetHit(int damage)
         {
             Hp -= damage;
         }
@@ -89,7 +92,7 @@ namespace Drones.Model
                     break;
             }
             if (obstacle != null)
-                drawingSpace.Graphics.DrawImage(obstacle, Convert.ToSingle(_x), Convert.ToSingle(_y), width, height);
+                drawingSpace.Graphics.DrawImage(obstacle, Convert.ToSingle(X), Convert.ToSingle(Y), width, height);
         }
         #endregion
     }
