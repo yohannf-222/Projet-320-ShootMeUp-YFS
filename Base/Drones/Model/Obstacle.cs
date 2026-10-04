@@ -52,7 +52,7 @@ namespace Drones.Model
             this.Y = y;
             this._hp = Config.OBSTACLE_HP;
         }
-        #region ================ Modelisation du joueur et de son comportement ================
+        #region ================ Modelisation de l'obstacle et de son comportement ================
         public void Update(int interval)
         {
             // Prendre les hp et trouver dans quel état l'obstacle est, chaque quart de vie augmente l'état

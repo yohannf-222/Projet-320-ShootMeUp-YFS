@@ -10,13 +10,10 @@ namespace Drones.Model
 {
     public class Gouvernail
     {
-
         private double _x;                              // Position en_xdepuis la gauche de l'espace 
         private double _y;                              // Position en Y depuis le haut de l'espace
-
         private double _xIncrement;
         private double _yIncrement;
-
         public double X { get => _x; set => _x = value; }
         public double Y { get => _y; set => _y = value; }
 
@@ -39,7 +36,7 @@ namespace Drones.Model
             this._yIncrement = deltaY / distance * Config.GOUVERNAIL_SPEED;
         }
 
-        #region ================ Modelisation du joueur et de son comportement ================
+        #region ================ Modelisation du gouvernail et de son comportement ================
         public void Update()
         {
             X += _xIncrement;
