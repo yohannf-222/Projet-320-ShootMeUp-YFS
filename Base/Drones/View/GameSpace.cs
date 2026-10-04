@@ -97,8 +97,9 @@ namespace Drones
                     if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, gouvernails[j].X, gouvernails[j].Y, Config.GOUVERNAIL_RADIUS)
                         && obstacles[i].State > 0)
                     {                        
-                        gouvernails.RemoveAt(j);
+                        gouvernails.RemoveAt(j);                        
                         obstacles[i].GetHit(Config.GOUVERNAIL_DAMAGE);
+                        return;
                     }
 
                     if (gouvernails[j].X > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[j].X < -(Config.OBJECT_DELETION_MARGIN)
