@@ -49,7 +49,7 @@ namespace Drones.Model
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER /2, 42 * Config.PIXEL_SIZE_MULTIPLYER, 42 * Config.PIXEL_SIZE_MULTIPLYER);            
+            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, 42 * Config.PIXEL_SIZE_MULTIPLYER, 42 * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }
