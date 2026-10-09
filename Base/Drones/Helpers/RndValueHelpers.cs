@@ -8,7 +8,7 @@ namespace Drones.Helpers
 {
     internal static class RndValueHelpers
     {
-        public static Random alea = new Random();
+        private static Random alea = new Random();
 
         /// <summary>
         /// Retourne une valeur aleatoire entre 0 compris et max non compris
