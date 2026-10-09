@@ -13,7 +13,7 @@ namespace Drones.Model
         static int totHp = Config.OBSTACLE_HP;
         private double _x;                          // Position en X depuis la gauche de l'espace 
         private double _y;                          // Position en Y depuis le haut de l'espace 
-        private double _hp;                            // Le nombre de projectiles qui peuvent encore être 
+        private double _hp;
         private int _state;
         public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;
         public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;
@@ -65,6 +65,16 @@ namespace Drones.Model
         public void GetHit(int damage)
         {
             Hp -= damage;
+        }
+
+        public static List<Obstacle> GenerateObstacles(int nb)
+        {
+            List<Obstacle> obstacles = new List<Obstacle>();
+            for (int i = 0; i < nb; i++)
+            {
+                obstacles.Add(new Obstacle((Config.GAMESPACE_WIDTH - 100) / nb * (i + 1) - 50 - Ennemi.width / 2, Config.GAMESPACE_HEIGHT / 3 * 2));
+            }
+            return obstacles;
         }
         #endregion
 

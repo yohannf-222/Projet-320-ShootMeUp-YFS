@@ -18,15 +18,17 @@ namespace Drones
             Player player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
 
             List<Gouvernail> gouvernails = new List<Gouvernail>();
-            List<Obstacle> obstacles = new List<Obstacle>();
-            obstacles.Add(new Obstacle(200, 350));
-            obstacles.Add(new Obstacle(400, 350));
-            obstacles.Add(new Obstacle(600, 350));
-            obstacles.Add(new Obstacle(800, 350));
-            obstacles.Add(new Obstacle(1000, 350));
+
+            List<Obstacle> obstacles = Obstacle.GenerateObstacles(5);
+
+            List<Ennemi> ennemis = new List<Ennemi>();
+            ennemis.Add(new Ennemi());
+            ennemis.Add(new Ennemi());
+            ennemis.Add(new Ennemi());
+            ennemis.Add(new Ennemi());
 
             // Démarrage
-            Application.Run(new GameSpace(player, gouvernails, obstacles));
+            Application.Run(new GameSpace(player, gouvernails, obstacles, ennemis));
         }
     }
 }
