@@ -8,14 +8,29 @@ using System.Threading.Tasks;
 
 namespace Drones.Model
 {
-    internal class Ennemi
+    public class Ennemi
     {
-        static int totHp = Config.ENNEMI_HP;
-        private double _x;                          // Position en X depuis la gauche de l'espace 
-        private double _y;                          // Position en Y depuis le haut de l'espace 
-        private double _hp;                            // Le nombre de projectiles qui peuvent encore être         
-        public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;
-        public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;
+        static int totHp = Config.ENNEMI_HP;                                    // Points de vie
+        private Location _position;                                             // Position de l'ennemi
+        private double _hp;
+        public static readonly int width = 14 * Config.PIXEL_SIZE_MULTIPLYER;   // Largeur de l'ennemi
+        public static readonly int height = 30 * Config.PIXEL_SIZE_MULTIPLYER;  // Hauteur de l'ennemi
+        private Location objectif;
+        private static int speed = Config.ENNEMI_SPEED;
+
+        // Points vers lesquels les ennemis se déplacent
+        private static Location[,] objectifs =
+        {
+           {new Location(Config.GAMESPACE_WIDTH / 4, Config.GAMESPACE_HEIGHT/5 * 1), new Location(Config.GAMESPACE_WIDTH/2,Config.GAMESPACE_HEIGHT/5 * 1), new Location(Config.GAMESPACE_WIDTH/ 4 * 3,Config.GAMESPACE_HEIGHT/5 * 1)},
+           {new Location(Config.GAMESPACE_WIDTH / 4, Config.GAMESPACE_HEIGHT/5 * 2), new Location(Config.GAMESPACE_WIDTH/2,Config.GAMESPACE_HEIGHT/5 * 2), new Location(Config.GAMESPACE_WIDTH/ 4 * 3,Config.GAMESPACE_HEIGHT/5 * 2)}
+        };
+
+        // Endroit où les ennemis peuvent apparaitre, en dehors de l'écran
+        private static Location[,] spawners =
+        {
+            {new Location(-width, Config.GAMESPACE_HEIGHT/5 * 1), new Location(Config.GAMESPACE_WIDTH + width ,Config.GAMESPACE_HEIGHT/5 * 1)},
+            {new Location(-width, Config.GAMESPACE_HEIGHT/5 * 2), new Location(Config.GAMESPACE_WIDTH + width ,Config.GAMESPACE_HEIGHT/5 * 2)}
+        };
 
         public double Hp
         {
@@ -31,32 +46,80 @@ namespace Drones.Model
             }
         }
 
-        public double X { get => _x; set => _x = value; }
-        public double Y { get => _y; set => _y = value; }
+        public Location Position { get => _position; set => _position = value; }
 
-        public Ennemi(int x, int y)
+        public Ennemi()
         {
-            this.X = x;
-            this.Y = y;
+            this.Position = spawners[RndValueHelpers.Next(0, 2), RndValueHelpers.Next(0, 2)];
             this._hp = Config.ENNEMI_HP;
         }
+
+
         #region ================ Modelisation de l'ennemi et de son comportement ================
         public void Update(int interval)
         {
+            // Si pas d'objectif, choisir un objectif
+            if (objectif == null)
+            {
+                objectif = ChooseObjective(objectifs, Position);
+            }
 
+            // Si on est assez proche de l'objectif, on arrondis X et Y pour être dessus
+            if (MathHelpers.CalculateDistance(Position.X, Position.Y, objectif.X, objectif.Y) <= speed)
+            {
+                Position = objectif;
+                ChooseObjective(objectifs, Position);
+            }
+
+            if (Math.Abs(objectif.X - Position.X) < speed)
+
+            if (objectif.X < Position.X)
+            { 
+                Position.X -= speed; 
+            }
+            else if (objectif.X > Position.X)
+            {
+                Position.X += speed;
+            }
+
+            if (objectif.Y < Position.Y)
+            {
+                Position.Y -= speed;
+            }
+            else if (objectif.Y > Position.Y)
+            {
+               Position.Y += speed;
+            }
+           
         }
 
         public void GetHit(int damage)
         {
             Hp -= damage;
         }
+
+        private Location ChooseObjective(Location[,] objectifs, Location position)
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                int objX = RndValueHelpers.Next(0, 3);
+                int objY = RndValueHelpers.Next(0, 2);
+                Location obj = objectifs[RndValueHelpers.Next(0, 2), RndValueHelpers.Next(0, 3)];
+
+                if (obj.Y != Position.Y && obj.X != Position.X)
+                    continue;
+                else
+                    return objectifs[objY, objX];
+            }
+            return objectifs[0, 0];
+        }
         #endregion
 
         #region  ================ Rendu graphique  ================
 
         public void Render(BufferedGraphics drawingSpace)
-        {                        
-            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), width, height);
+        {
+            drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
         }
         #endregion
     }

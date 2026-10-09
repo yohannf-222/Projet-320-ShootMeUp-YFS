@@ -16,18 +16,24 @@ namespace Drones
 
         //les clics de la souris
         public static MouseEventArgs? _mouse;
+
         // Le joueur
         private Player _player;
+
         // Les gouvernails
         private List<Gouvernail> _gouvernails;
+
         //les obstacles
         private List<Obstacle> _obstacles;
+
+        //les ennemis
+        private List<Ennemi> _ennemis;
 
         BufferedGraphicsContext currentContext;
         BufferedGraphics gamespace;
 
         // Initialisation de l'espace du jeu avec le joueur
-        public GameSpace(Player player, List<Gouvernail> gouvernails, List<Obstacle> obstacles)
+        public GameSpace(Player player, List<Gouvernail> gouvernails, List<Obstacle> obstacles, List<Ennemi> ennemis)
         {
             InitializeComponent();
             ClientSize = new Size(WIDTH, HEIGHT);
@@ -40,6 +46,7 @@ namespace Drones
             this._player = player;
             this._gouvernails = gouvernails;
             this._obstacles = obstacles;
+            this._ennemis = ennemis;
         }
 
         // Affichage de la situation actuelle
@@ -48,13 +55,20 @@ namespace Drones
             gamespace.Graphics.Clear(Color.AliceBlue);
 
             _player.Render(gamespace);
+
             foreach (Gouvernail gouvernail in _gouvernails)
             {
                 gouvernail.Render(gamespace);
             }
+
             foreach (Obstacle obstacle in _obstacles)
             {
                 obstacle.Render(gamespace);
+            }
+
+            foreach (Ennemi ennemi in _ennemis)
+            {
+                ennemi.Render(gamespace);
             }
             gamespace.Render();
         }
@@ -66,13 +80,19 @@ namespace Drones
             {
                 gouvernail.Update();
             }
+
             foreach (Obstacle obstacle in _obstacles)
             {
                 obstacle.Update(interval);
             }
+
+            foreach (Ennemi ennemi in _ennemis)
+            {
+                ennemi.Update(interval);
+            }
             _player.Update(interval, _mouse, ref _gouvernails);
             ManageHits(ref _gouvernails, _player, _obstacles);
-            _mouse = null;           
+            _mouse = null;
         }
 
         // Méthode appelée à chaque frame
@@ -96,8 +116,8 @@ namespace Drones
                 {
                     if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, gouvernails[j].X, gouvernails[j].Y, Config.GOUVERNAIL_RADIUS)
                         && obstacles[i].State > 0)
-                    {                        
-                        gouvernails.RemoveAt(j);                        
+                    {
+                        gouvernails.RemoveAt(j);
                         obstacles[i].GetHit(Config.GOUVERNAIL_DAMAGE);
                         return;
                     }

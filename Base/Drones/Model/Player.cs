@@ -18,13 +18,14 @@ namespace Drones.Model
         private static readonly int HEIGHT = 43 * Config.PIXEL_SIZE_MULTIPLYER;         // Dimension du joueur, hauteur
         private State _state;                                   // l'état du joueur
         private int speedMultiplyer = 1;                        // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
-        private int _cooldown = 20;
+        private int _cooldown = 10;                             // Temps d'attente entre les tirs de gouvernail, en ticks
 
-        public enum State { ALIVE, DEAD, STOPPED };
+        public enum State { ALIVE, DEAD, STOPPED };             // l'état dans lequel le joueur est
 
         public double X
         {
             get => _x;
+            // Empêcher le joueur de sortir du jeu
             set
             {
                 if (value > Config.GAMESPACE_WIDTH - WIDTH)
@@ -48,13 +49,14 @@ namespace Drones.Model
         #region ================ Modelisation du joueur et de son comportement ================
         public void Update(int interval, MouseEventArgs? mouse, ref List<Gouvernail> gouvernails)
         {
-            //ne faire le reste que si le joueur est vivant
+            // Ne faire le reste que si le joueur est vivant
             if (_state != State.ALIVE)
                 return;
 
+            // Au clic gauche, instancier un gouvernail au milieu du personnage
             if (mouse != null && _cooldown >= Config.GOUVERNAIL_COOLDOWN && Convert.ToString(mouse.Button) == "Left")
             {
-                gouvernails.Add(new Gouvernail(X, Y, mouse.X, mouse.Y));
+                gouvernails.Add(new Gouvernail(X + WIDTH / 2, Y + WIDTH / 2, mouse.X, mouse.Y));
                 _cooldown = 0;
             }
             _cooldown++;
@@ -100,9 +102,6 @@ namespace Drones.Model
         #endregion
 
         #region  ================ Rendu graphique  ================
-
-        private const int SIZE = 50;
-        private Pen droneBrush = new Pen(new SolidBrush(Color.Purple), 3);
 
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
