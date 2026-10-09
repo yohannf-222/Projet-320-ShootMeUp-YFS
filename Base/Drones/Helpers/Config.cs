@@ -8,8 +8,8 @@ namespace Drones.Helpers
 {
     internal class Config
     {
-        public static int GAMESPACE_WIDTH = 1200;       // Dimensions du gamespace, X
-        public static int GAMESPACE_HEIGHT = 600;       // Dimensions du gamespace, Y
+        public static int GAMESPACE_WIDTH = 1440;       // Dimensions du gamespace, X
+        public static int GAMESPACE_HEIGHT = 800;       // Dimensions du gamespace, Y
 
         public static int SPEED = 10;                   // Du joueur, en px par frame
         public static int GOUVERNAIL_SPEED = 50;        // En px par frame
@@ -23,5 +23,6 @@ namespace Drones.Helpers
         public static int OBJECT_DELETION_MARGIN = 200; // Marge de suppression des objets hors écran, en px     
 
         public static int ENNEMI_HP = 250;
+        public static int ENNEMI_SPEED = 10;
     }
 }
