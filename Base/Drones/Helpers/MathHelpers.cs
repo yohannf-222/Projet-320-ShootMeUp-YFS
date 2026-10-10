@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShootMeUp.Helpers
 {
-    internal class MathHelpers
+    public class MathHelpers
     {
         /// <summary>
         /// Calcule une distance entre 2 points sur un système de coordonées
@@ -67,5 +67,24 @@ namespace ShootMeUp.Helpers
             return false;
         }
 
+        /// <summary>
+        /// Retourne la valeur d'une liste donnée la plus proche d'une valeur donnée
+        /// </summary>
+        /// <param name="a">Valeur</param>
+        /// <param name="list">liste des valeurs dans laquelle il faut trouver la plus proche</param>
+        /// <returns>La valeur de la liste la plus proche de la valeur donnée</returns>
+        public static int ClosestValue(int a, List<int> list)
+        {
+            int difference = list[0] - a;
+            for (int i = 1; i < list.Count; i++)
+            {                
+                if (Math.Abs(list[i] - a) < Math.Abs(difference))
+                    difference = list[i] - a;
+
+                if (difference == 0)
+                    return list[i];
+            }
+            return a + difference;
+        }
     }
 }
