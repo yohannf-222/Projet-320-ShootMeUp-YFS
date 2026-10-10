@@ -6,13 +6,12 @@ namespace Drones
     // La classe GameSpace représente la zone du jeu
     // Il s'agit d'un formulaire (une fenêtre) qui montre une vue 2D depuis en dessus
     // Il n'y a donc pas de notion d'altitude qui intervient
-
     public partial class GameSpace : Form
     {
         public static List<char> keysPressed = new List<char>();          // Liste contenant les touches qui sont en train d'être pressées 
 
-        public static readonly int WIDTH = Config.GAMESPACE_WIDTH;        // Dimensions du gamespace
-        public static readonly int HEIGHT = Config.GAMESPACE_HEIGHT;
+        public static readonly int WIDTH = Config.GAMESPACE_WIDTH;      // Dimensions du gamespace, largeur
+        public static readonly int HEIGHT = Config.GAMESPACE_HEIGHT;    // Dimensions du gamespace, hauteur
 
         //les clics de la souris
         public static MouseEventArgs? _mouse;
@@ -20,7 +19,7 @@ namespace Drones
         // Le joueur
         private Player _player;
 
-        // Les gouvernails
+        // Les projectiles amis
         private List<Gouvernail> _gouvernails;
 
         //les obstacles
@@ -40,9 +39,12 @@ namespace Drones
 
             // Gets a reference to the current BufferedGraphicsContext
             currentContext = BufferedGraphicsManager.Current;
+
             // Creates a BufferedGraphics instance associated with this form, and with
             // dimensions the same size as the drawing surface of the form.
             gamespace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
+
+            // Ajoute les entités du jeu qui sont reçues en paramêtre dans les attributs de Gamespace
             this._player = player;
             this._gouvernails = gouvernails;
             this._obstacles = obstacles;
@@ -52,20 +54,25 @@ namespace Drones
         // Affichage de la situation actuelle
         private void Render()
         {
+            // Réinitialisation (visuelle) de l'environnement Gamespace
             gamespace.Graphics.Clear(Color.AliceBlue);
 
+            // Affichage du joueur
             _player.Render(gamespace);
 
+            // Affichage des projectiles amis
             foreach (Gouvernail gouvernail in _gouvernails)
             {
                 gouvernail.Render(gamespace);
             }
 
+            // Affichage des obstacles
             foreach (Obstacle obstacle in _obstacles)
             {
                 obstacle.Render(gamespace);
             }
 
+            // Affichage des ennemis
             foreach (Ennemi ennemi in _ennemis)
             {
                 ennemi.Render(gamespace);
@@ -76,22 +83,31 @@ namespace Drones
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
+            // Update du joueur
+            _player.Update(interval, _mouse, ref _gouvernails);
+
+            // Update des projectiles amis
             foreach (Gouvernail gouvernail in _gouvernails)
             {
                 gouvernail.Update();
             }
 
+            // Update des obstacles
             foreach (Obstacle obstacle in _obstacles)
             {
                 obstacle.Update(interval);
             }
 
+            // Update des ennemis
             foreach (Ennemi ennemi in _ennemis)
             {
                 ennemi.Update(interval);
             }
-            _player.Update(interval, _mouse, ref _gouvernails);
+
+            // Appel de la méthode qui gère les impacts de projectiles
             ManageHits(ref _gouvernails, _player, _obstacles);
+
+            // Vide les inputs de la souris
             _mouse = null;
         }
 
@@ -105,9 +121,9 @@ namespace Drones
         /// <summary>
         /// Supprime les projectiles qui touchent un obstacle et font des dégats à l'élément touché. 
         /// </summary>
-        /// <param name="gouvernails"></param>
-        /// <param name="player"></param>
-        /// <param name="obstacles"></param>
+        /// <param name="gouvernails">Liste des gouvernails, modifiée directement</param>
+        /// <param name="player">Objet joueur</param>
+        /// <param name="obstacles">liste des obstacles</param>
         private void ManageHits(ref List<Gouvernail> gouvernails, Player player, List<Obstacle> obstacles)
         {
             for (int i = obstacles.Count - 1; i >= 0; i--)
@@ -131,14 +147,24 @@ namespace Drones
             }
         }
 
+        #region ================= Comptabilisation des inputs sur les périphériques =======================
+
+        /// <summary>
+        /// Lorsqu'on clique sur une touche, ajoute la touche dans la liste des touches pressées
+        /// </summary>
         private void GameSpace_KeyDown(object sender, KeyEventArgs e)
         {
-            if (keysPressed.Contains(Convert.ToChar(e.KeyValue)) == false)
+            // Si la liste des touches pressées ne la contient pas déja,
+            if (!keysPressed.Contains(Convert.ToChar(e.KeyValue)))
             {
+                // ajouter la nouvelle touche
                 keysPressed.Add(Convert.ToChar(e.KeyValue));
             }
         }
 
+        /// <summary>
+        /// Lorsqu'on arrête de cliquer sur une touche, enlève la touche de la liste des touches pressées
+        /// </summary>
         private void GameSpace_KeyUp(object sender, KeyEventArgs e)
         {
             if (keysPressed.Contains(Convert.ToChar(e.KeyValue)))
@@ -147,14 +173,13 @@ namespace Drones
             }
         }
 
-        public void mouseClick(object sender, MouseEventArgs mouse)
-        {
-            Console.Write(mouse.Button);
-        }
-
+        /// <summary>
+        /// Prends compte des clics de la souris et les mets dans _mouse
+        /// </summary>
         private void PlayerMouseClick(object sender, MouseEventArgs e)
         {
             _mouse = e;
         }
+        #endregion
     }
 }

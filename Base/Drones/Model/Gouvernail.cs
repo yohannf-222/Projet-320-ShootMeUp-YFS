@@ -18,7 +18,7 @@ namespace Drones.Model
         public double Y { get => _y; set => _y = value; }
 
         /// <summary>
-        /// Projectiles du joueur, qui se déplacent vers la position de la souris quand on clique
+        /// Projectiles du joueur, part du joueur et continuent d'avancer dans la direction donnée (souris).
         /// </summary>
         /// <param name="x">position x</param>
         /// <param name="y">position y</param>
@@ -29,6 +29,7 @@ namespace Drones.Model
             X = x;
             Y = y;
 
+            // calculer l'incrément de déplacement x et y en fonction de la direction de la souris lors de l'instanciation du gouvernail.
             double deltaX = targetX - X;
             double deltaY = targetY - Y;
             double distance = MathHelpers.CalculateDistance(X, Y, targetX, targetY);
@@ -39,6 +40,7 @@ namespace Drones.Model
         #region ================ Modelisation du gouvernail et de son comportement ================
         public void Update()
         {
+            // Déplacer le gouvernail dans la direction calculée lors de son instanciation
             X += _xIncrement;
             Y += _yIncrement;
         }
@@ -46,7 +48,7 @@ namespace Drones.Model
 
         #region  ================ Rendu graphique  ================
 
-        // De manière graphique
+        // Afficher le gouvernail, centré sur sa position X/Y
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, 42 * Config.PIXEL_SIZE_MULTIPLYER, 42 * Config.PIXEL_SIZE_MULTIPLYER);

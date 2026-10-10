@@ -14,13 +14,15 @@ namespace Drones.Model
 
         private double _x;                                      // Position en X depuis la gauche de l'espace
         private double _y;                                      // Position en Y depuis le haut de l'espace
+
         private static readonly int WIDTH = 26 * Config.PIXEL_SIZE_MULTIPLYER;          // Dimension du joueur, largeur
         private static readonly int HEIGHT = 43 * Config.PIXEL_SIZE_MULTIPLYER;         // Dimension du joueur, hauteur
-        private State _state;                                   // l'état du joueur
-        private int speedMultiplyer = 1;                        // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
-        private int _cooldown = 10;                             // Temps d'attente entre les tirs de gouvernail, en ticks
 
-        public enum State { ALIVE, DEAD, STOPPED };             // l'état dans lequel le joueur est
+        private State _state;                                   // l'état dans lequel le joueur est
+        private int speedMultiplyer = 1;                        // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
+        private int _cooldown = Config.GOUVERNAIL_COOLDOWN;     // Compteur de ticks depuis le dernier tir de gouvernail
+
+        public enum State { ALIVE, DEAD, STOPPED };             // les états possibles dans lequel le joueur peut être
 
         public double X
         {
@@ -63,9 +65,10 @@ namespace Drones.Model
 
             #region ============= Mouvements ===========
 
+            // Facteur d'accélération du joueur lorsqu'il avance en ligne droite
             double speed = Config.SPEED * speedMultiplyer;
 
-            // bouger à droite ou gauche selon les touches pressées
+            // Bouger à droite ou gauche selon les touches pressées
             if (GameSpace.keysPressed.Contains('D'))
             {
                 if (X < Config.GAMESPACE_WIDTH - speed - WIDTH)
@@ -89,13 +92,10 @@ namespace Drones.Model
 
             // Le joueur accélère tant qu'il maintient, redevient lent lorsqu'il arrête
             if (GameSpace.keysPressed.Contains('A') || GameSpace.keysPressed.Contains('D'))
-            {
                 speedMultiplyer++;
-            }
             else
-            {
                 speedMultiplyer = 1;
-            }
+
             #endregion
 
         }
@@ -103,7 +103,7 @@ namespace Drones.Model
 
         #region  ================ Rendu graphique  ================
 
-        // De manière graphique
+        // Afficher le joueur
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);

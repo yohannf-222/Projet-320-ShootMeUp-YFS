@@ -16,6 +16,7 @@ namespace Drones.Helpers
         /// <param name="max">Valeur maximum non comprise</param>
         /// <returns></returns>
         public static int Next(int max) => alea.Next(max);
+
         /// <summary>
         /// Retourne une valeur aleatoire entre min compris et max non compris
         /// </summary>

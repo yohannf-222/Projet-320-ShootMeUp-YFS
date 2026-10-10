@@ -4,21 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Drones.Model
 {
     public class Obstacle
     {
-        static int totHp = Config.OBSTACLE_HP;
+        static int totHp = Config.OBSTACLE_HP;      // Nombre de Hp maximum d'un obstacle
         private double _x;                          // Position en X depuis la gauche de l'espace 
         private double _y;                          // Position en Y depuis le haut de l'espace 
-        private double _hp;
-        private int _state;
-        public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;
-        public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;
+        private double _hp;                         // Les points de vie d'un objet obstacle
+        private int _state;                         // Les 4 états de l'obstacle correspondent à un quart des Hp totaux et changent également son apparence
+        public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;   // Dimension d'un obstacle, largeur
+        public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;  // Dimension d'un obstacle, hauteur
 
-        public double Hp
+        private double Hp
         {
             get => _hp;
             set
@@ -28,7 +29,7 @@ namespace Drones.Model
                 else if (Hp < 0)
                     _hp = 0;
                 else
-                    _hp = value;
+                    _hp = value;                
             }
         }
         public int State
@@ -55,18 +56,28 @@ namespace Drones.Model
         #region ================ Modelisation de l'obstacle et de son comportement ================
         public void Update(int interval)
         {
-            // Prendre les hp et trouver dans quel état l'obstacle est, chaque quart de vie augmente l'état
+            // Chaque changement de Hp peut changer l'état, chaque quart de totHp = plus 1 dans state
             State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));
-            //Régénération des obstacles
+            
+            //Régénération des obstacles dans le temps
             if (Hp < Config.OBSTACLE_HP)
                 Hp += 0.5;
         }
 
+        /// <summary>
+        /// Ordonner à l'obstacle de décrémenter sa vie de <paramref name="damage"/> points afin de garder Hp privé
+        /// </summary>
+        /// <param name="damage">Le nombre de dégats à décrémenter</param>
         public void GetHit(int damage)
         {
             Hp -= damage;
         }
 
+        /// <summary>
+        /// Crée une liste d'obstacles
+        /// </summary>
+        /// <param name="nb"></param>
+        /// <returns></returns>
         public static List<Obstacle> GenerateObstacles(int nb)
         {
             List<Obstacle> obstacles = new List<Obstacle>();

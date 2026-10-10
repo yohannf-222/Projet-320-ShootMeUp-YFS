@@ -18,11 +18,11 @@ namespace Drones.Model
         private Location objectif;
         private static int speed = Config.ENNEMI_SPEED;
 
-        // Points vers lesquels les ennemis se déplacent
+        // Points entre lesquels les ennemis se déplacent
         private static Location[,] objectifs =
         {
-           {new Location(Config.GAMESPACE_WIDTH / 4, Config.GAMESPACE_HEIGHT/5 * 1), new Location(Config.GAMESPACE_WIDTH/2,Config.GAMESPACE_HEIGHT/5 * 1), new Location(Config.GAMESPACE_WIDTH/ 4 * 3,Config.GAMESPACE_HEIGHT/5 * 1)},
-           {new Location(Config.GAMESPACE_WIDTH / 4, Config.GAMESPACE_HEIGHT/5 * 2), new Location(Config.GAMESPACE_WIDTH/2,Config.GAMESPACE_HEIGHT/5 * 2), new Location(Config.GAMESPACE_WIDTH/ 4 * 3,Config.GAMESPACE_HEIGHT/5 * 2)}
+           {new Location(Config.GAMESPACE_WIDTH / 6, Config.GAMESPACE_HEIGHT/5 * 1), new Location(Config.GAMESPACE_WIDTH/2,Config.GAMESPACE_HEIGHT/5 * 1), new Location(Config.GAMESPACE_WIDTH/ 6 * 5,Config.GAMESPACE_HEIGHT/5 * 1)},
+           {new Location(Config.GAMESPACE_WIDTH / 6, Config.GAMESPACE_HEIGHT/5 * 2), new Location(Config.GAMESPACE_WIDTH/2,Config.GAMESPACE_HEIGHT/5 * 2), new Location(Config.GAMESPACE_WIDTH/ 6 * 5,Config.GAMESPACE_HEIGHT/5 * 2)}
         };
 
         // Endroit où les ennemis peuvent apparaitre, en dehors de l'écran
@@ -37,6 +37,7 @@ namespace Drones.Model
             get => _hp;
             set
             {
+                // Empêcher les Hp de sortir des limites
                 if (Hp > Config.ENNEMI_HP)
                     _hp = Config.ENNEMI_HP;
                 else if (Hp < 0)
@@ -50,6 +51,7 @@ namespace Drones.Model
 
         public Ennemi()
         {
+            //apparition aléatoire dans l'un des spawners
             this.Position = spawners[RndValueHelpers.Next(0, 2), RndValueHelpers.Next(0, 2)];
             this._hp = Config.ENNEMI_HP;
         }
@@ -68,14 +70,15 @@ namespace Drones.Model
             if (MathHelpers.CalculateDistance(Position.X, Position.Y, objectif.X, objectif.Y) <= speed)
             {
                 Position = objectif;
+                // Choisir un nouvel objectif
                 ChooseObjective(objectifs, Position);
             }
 
             if (Math.Abs(objectif.X - Position.X) < speed)
 
             if (objectif.X < Position.X)
-            { 
-                Position.X -= speed; 
+            {
+                Position.X -= speed;
             }
             else if (objectif.X > Position.X)
             {
@@ -88,9 +91,9 @@ namespace Drones.Model
             }
             else if (objectif.Y > Position.Y)
             {
-               Position.Y += speed;
+                Position.Y += speed;
             }
-           
+
         }
 
         public void GetHit(int damage)
