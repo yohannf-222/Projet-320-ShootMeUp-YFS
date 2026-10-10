@@ -1,7 +1,7 @@
-using Drones.Helpers;
-using Drones.Model;
+using ShootMeUp.Helpers;
+using ShootMeUp.Model;
 
-namespace Drones
+namespace ShootMeUp
 {
     internal static class Program
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Drones.Properties {
+namespace ShootMeUp.Properties {
     using System;
     
     

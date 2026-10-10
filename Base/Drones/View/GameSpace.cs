@@ -1,7 +1,7 @@
-using Drones.Helpers;
-using Drones.Model;
+using ShootMeUp.Helpers;
+using ShootMeUp.Model;
 using System.Numerics;
-namespace Drones
+namespace ShootMeUp
 {
     // La classe GameSpace représente la zone du jeu
     // Il s'agit d'un formulaire (une fenêtre) qui montre une vue 2D depuis en dessus
