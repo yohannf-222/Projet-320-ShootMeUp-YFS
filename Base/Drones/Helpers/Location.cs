@@ -22,5 +22,11 @@ namespace ShootMeUp.Helpers
             X = x;
             Y = y;
         }
+
+        public Location()
+        {
+            X = 0;
+            Y = 0;
+        }
     }
 }
