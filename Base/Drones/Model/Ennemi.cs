@@ -71,29 +71,17 @@ namespace Drones.Model
             {
                 Position = objectif;
                 // Choisir un nouvel objectif
-                ChooseObjective(objectifs, Position);
+                objectif = ChooseObjective(objectifs, Position);
             }
 
-            if (Math.Abs(objectif.X - Position.X) < speed)
-
-            if (objectif.X < Position.X)
-            {
-                Position.X -= speed;
-            }
-            else if (objectif.X > Position.X)
-            {
+            if (objectif.X > Position.X)
                 Position.X += speed;
-            }
-
-            if (objectif.Y < Position.Y)
-            {
-                Position.Y -= speed;
-            }
+            else if (objectif.X < Position.X)
+                Position.X -= speed;
             else if (objectif.Y > Position.Y)
-            {
                 Position.Y += speed;
-            }
-
+            else if (objectif.Y < Position.Y)
+                Position.Y -= speed;
         }
 
         public void GetHit(int damage)
@@ -101,8 +89,15 @@ namespace Drones.Model
             Hp -= damage;
         }
 
+        /// <summary>
+        /// Choisir un objectif aléatoire parmi les objectifs donnés, seulement dans des directions cardinales.
+        /// </summary>
+        /// <param name="objectifs">Les objectifs possibles</param>
+        /// <param name="position">Position actuelle de l'ennemi</param>
+        /// <returns>Objectif choisi</returns>
         private Location ChooseObjective(Location[,] objectifs, Location position)
         {
+            // Essayer 50 fois de choisir un objectif qui n'est pas en diagonale de la position actuelle.
             for (int i = 0; i < 50; i++)
             {
                 int objX = RndValueHelpers.Next(0, 3);
@@ -114,12 +109,15 @@ namespace Drones.Model
                 else
                     return objectifs[objY, objX];
             }
+            // si échoué après 50 essais, retourner le premier objectif par défaut, afin d'éviter une boucle infinie.
             return objectifs[0, 0];
         }
+
         #endregion
 
         #region  ================ Rendu graphique  ================
 
+        // Afficher l'ennemi
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
