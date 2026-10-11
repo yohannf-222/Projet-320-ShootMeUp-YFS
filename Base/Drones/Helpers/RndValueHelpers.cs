@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShootMeUp.Helpers
 {
-    internal static class RndValueHelpers
+    public static class RndValueHelpers
     {
         private static Random alea = new Random();
 

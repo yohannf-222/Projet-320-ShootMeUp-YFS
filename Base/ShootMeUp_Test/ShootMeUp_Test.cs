@@ -56,5 +56,146 @@ namespace ShootMeUp
                 }
             }
         }
+
+        [TestMethod]
+        public void MathHelpers_IsTouching_RectangleOverlap()
+        {
+            // Arrange
+            int x1 = 0, y1 = 0, width1 = 10, height1 = 10;
+            int x2 = 5, y2 = 5, width2 = 10, height2 = 10;
+
+            // Act
+            bool result = MathHelpers.IsTouching(x1, y1, width1, height1, x2, y2, width2, height2);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_IsTouching_RectangleNoOverlap()
+        {
+            // Arrange
+            int x1 = 0, y1 = 0, width1 = 10, height1 = 10;
+            int x2 = 20, y2 = 20, width2 = 10, height2 = 10;
+
+            // Act
+            bool result = MathHelpers.IsTouching(x1, y1, width1, height1, x2, y2, width2, height2);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_IsTouching_CircleInside()
+        {
+            // Arrange
+            int x1 = 0, y1 = 0, width1 = 20, height1 = 20;
+            int x2 = 10, y2 = 10, radius2 = 5;
+
+            // Act
+            bool result = MathHelpers.IsTouching(x1, y1, width1, height1, x2, y2, radius2);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_IsTouching_CircleFarAway()
+        {
+            // Arrange 
+            int x1 = 0, y1 = 0, width1 = 10, height1 = 10;
+            int x2 = 50, y2 = 50, radius2 = 5;
+
+            // Act
+            bool result = MathHelpers.IsTouching(x1, y1, width1, height1, x2, y2, radius2);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_CalculateDistance_KnownDistance()
+        {
+            // Arrange 
+            double x1 = 0, y1 = 0, x2 = 3, y2 = 4;
+
+            // Act
+            double result = MathHelpers.CalculateDistance(x1, y1, x2, y2);
+
+            // Assert
+            Assert.AreEqual(5, result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_CalculateDistance_SamePoint()
+        {
+            // Arrange
+            double x1 = 10, y1 = 20, x2 = 10, y2 = 20;
+
+            // Act
+            double result = MathHelpers.CalculateDistance(x1, y1, x2, y2);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_ClosestValue_ExactMatch()
+        {
+            // Arrange
+            int value = 5;
+            List<int> list = new List<int> { 1, 3, 5, 7, 9 };
+
+            // Act
+            int result = MathHelpers.ClosestValue(value, list);
+
+            // Assert
+            Assert.AreEqual(5, result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_ClosestValue_2Reponses()
+        {
+            // Arrange
+            int value = 6;
+            List<int> list = new List<int> { 1, 3, 5, 7, 9 };
+
+            // Act
+            int result = MathHelpers.ClosestValue(value, list);
+
+            // Assert
+            // La methode n'étant pas parfaite, mettre 7 dans le Assert serait faux.
+            // Je ne compte pas changer la methode car son fonctionnement est suffisant pour le jeu.
+            Assert.AreEqual(5, result); 
+        }
+
+        [TestMethod]
+        public void RndValueHelpers_Next_TestPlageValeurs()
+        {
+            // Arrange
+            int min = 10, max = 20;
+
+            // Act
+            for (int i = 0; i < 10; i++)
+            {
+                int result = RndValueHelpers.Next(min, max);
+
+                // Assert
+                Assert.IsTrue(result >= min && result < max);
+            }
+        }
+
+        [TestMethod]
+        public void RndValueHelpers_Next_UnePossibilite()
+        {
+            // Arrange
+            int min = 5, max = 6;
+
+            // Act
+            int result = RndValueHelpers.Next(min, max);
+
+            // Assert
+            Assert.AreEqual(5, result);
+        }
     }
 }
