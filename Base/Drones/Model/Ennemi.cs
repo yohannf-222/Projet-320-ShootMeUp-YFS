@@ -37,19 +37,10 @@ namespace ShootMeUp.Model
         // Endroit où les ennemis peuvent apparaitre, en dehors de l'écran
         private static List<Location> spawners = DefineSpawners();
 
-        private double Hp
+        public double Hp
         {
             get => _hp;
-            set
-            {
-                // Empêcher les Hp de sortir des limites
-                if (Hp > Config.ENNEMI_HP)
-                    _hp = Config.ENNEMI_HP;
-                else if (Hp < 0)
-                    _hp = 0;
-                else
-                    _hp = value;
-            }
+            set => _hp = value;
         }
 
         public Location Position
@@ -118,15 +109,6 @@ namespace ShootMeUp.Model
         }
 
         /// <summary>
-        /// Ordonner à l'ennemi de prendre des dégats, afin de garder Hp privé.
-        /// </summary>
-        /// <param name="damage"></param>
-        public void GetHit(int damage)
-        {
-            Hp -= damage;
-        }
-
-        /// <summary>
         /// Choisir un objectif aléatoire parmi les objectifs donnés, seulement dans des directions cardinales.
         /// </summary>
         /// <param name="objectifs">Les objectifs possibles</param>
@@ -161,18 +143,17 @@ namespace ShootMeUp.Model
         private static List<Location> DefineSpawners()
         {
             List<Location> spawners = new List<Location>();
-
-            foreach (int x in axesX)
+            
+            for (int i = 0; i < axesX.Count; i++)
             {
-                spawners.Add(new Location { X = x, Y = -height });
+                spawners.Add(new Location(axesX[i], -height ));
             }
 
-            foreach (int y in axesY)
+            for (int i = 0; i < axesY.Count; i++)
             {
-                spawners.Add(new Location { X = -width, Y = y });
-                spawners.Add(new Location { X = Config.GAMESPACE_WIDTH + width, Y = y });
+                spawners.Add(new Location(-width, axesY[i]));
+                spawners.Add(new Location(Config.GAMESPACE_WIDTH + width, axesY[i]));
             }
-
             return spawners;
         }
 
@@ -193,9 +174,9 @@ namespace ShootMeUp.Model
 
             // Retourner la position la plus proche
             if (deltaX < deltaY)
-                return new Location { X = closestX, Y = value.Y };
+                return new Location (closestX, Convert.ToInt16(Math.Round(value.Y)));
             else
-                return new Location { X = value.X, Y = closestY };
+                return new Location (Convert.ToInt16(Math.Round(value.X)), closestY);
         }
 
         #region  ================ Rendu graphique  ================
@@ -203,10 +184,10 @@ namespace ShootMeUp.Model
         // Afficher l'ennemi
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
-            drawingSpace.Graphics.DrawRectangle(Pens.Red, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y), width, height);
-            drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
-            drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y));
+            //drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
+            //drawingSpace.Graphics.DrawRectangle(Pens.Red, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y), width, height);
+            //drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
+            //drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y));
         }
         #endregion
     }

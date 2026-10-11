@@ -22,7 +22,7 @@ namespace ShootMeUp.Helpers
         public static int OBSTACLE_HP = 250;            // Dégats que l'obstacle peut encaisser avant de disparaitre temporairement.
         public static int OBJECT_DELETION_MARGIN = 200; // Marge de suppression des objets hors écran, en px     
 
-        public static int ENNEMI_HP = 250;              // Dégats que l'ennemi peut encaisser avant d'être éliminé.
+        public static int ENNEMI_HP = 1;                // Dégats que l'ennemi peut encaisser avant d'être éliminé.
         public static int ENNEMI_SPEED = 10;            // Vitesse des ennemis en px par frame
     }
 }

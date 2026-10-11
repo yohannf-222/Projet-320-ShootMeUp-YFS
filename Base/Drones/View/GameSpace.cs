@@ -105,7 +105,7 @@ namespace ShootMeUp
             }
 
             // Appel de la méthode qui gère les impacts de projectiles
-            ManageHits(ref _gouvernails, _player, _obstacles);
+            ManageHits(ref _gouvernails, _player, _obstacles, _ennemis);
 
             // Vide les inputs de la souris
             _mouse = null;
@@ -124,7 +124,7 @@ namespace ShootMeUp
         /// <param name="gouvernails">Liste des gouvernails, modifiée directement</param>
         /// <param name="player">Objet joueur</param>
         /// <param name="obstacles">liste des obstacles</param>
-        private void ManageHits(ref List<Gouvernail> gouvernails, Player player, List<Obstacle> obstacles)
+        private void ManageHits(ref List<Gouvernail> gouvernails, Player player, List<Obstacle> obstacles, List<Ennemi> ennemis)
         {
             for (int i = obstacles.Count - 1; i >= 0; i--)
             {
@@ -136,13 +136,35 @@ namespace ShootMeUp
                         gouvernails.RemoveAt(j);
                         obstacles[i].GetHit(Config.GOUVERNAIL_DAMAGE);
                         return;
-                    }
+                    }                   
+                }
+            }
 
-                    if (gouvernails[j].X > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[j].X < -(Config.OBJECT_DELETION_MARGIN)
-                        || gouvernails[j].Y > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[j].Y < -(Config.OBJECT_DELETION_MARGIN))
+            for (int i = ennemis.Count - 1; i >= 0; i--)
+            {
+                for (int j = gouvernails.Count - 1; j >= 0; j--)
+                {
+                    if (MathHelpers.IsTouching(ennemis[i].Position.X, ennemis[i].Position.Y, Ennemi.width, Ennemi.height, gouvernails[j].X, gouvernails[j].Y, Config.GOUVERNAIL_RADIUS))
                     {
                         gouvernails.RemoveAt(j);
+                        ennemis[i].Hp -= Config.GOUVERNAIL_DAMAGE;
+                        if (ennemis[i].Hp < 0)
+                        {
+                            ennemis.RemoveAt(i);
+                            ennemis.Add(new Ennemi());
+                        }
+                        return;
                     }
+
+                }
+            }
+
+            for (int i = gouvernails.Count - 1; i >= 0; i--)
+            {
+                if (gouvernails[i].X > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[i].X < -(Config.OBJECT_DELETION_MARGIN)
+                        || gouvernails[i].Y > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[i].Y < -(Config.OBJECT_DELETION_MARGIN))
+                {
+                    gouvernails.RemoveAt(i);
                 }
             }
         }
