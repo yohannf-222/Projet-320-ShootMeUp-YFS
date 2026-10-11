@@ -18,22 +18,17 @@ namespace ShootMeUp.Model
         private Location objectif;
         private static int speed = Config.ENNEMI_SPEED;
 
+        // Axes sur lesquels les ennemis peuvent se déplacer
+        // axesX : positions X possibles (droites verticales)
+        // axesY : positions Y possibles (droites horizontales)
         private static List<int> axesX = new List<int> { Config.GAMESPACE_WIDTH / 6, Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_WIDTH / 6 * 5 };
-        private static List<int> axesY = new List<int> { Config.GAMESPACE_HEIGHT / 5 * 1, Config.GAMESPACE_HEIGHT / 5 * 2 };
+        private static List<int> axesY = new List<int> { Config.GAMESPACE_HEIGHT / 6 * 1, Config.GAMESPACE_HEIGHT / 6 * 2, Config.GAMESPACE_HEIGHT / 6 * 3 };
 
         // Points entre lesquels les ennemis se déplacent
-        private static Location[,] objectifs =
-        {
-           {new Location(axesX[0], axesY[0]), new Location(axesX[1], axesY[0]), new Location(axesX[2], axesY[0])},
-           {new Location(axesX[0], axesY[1]), new Location(axesX[1], axesY[1]), new Location(axesX[2], axesY[1])}
-        };
+        private static Location[,] objectifs = MathHelpers.DefineIntersections(axesX, axesY);
 
         // Endroit où les ennemis peuvent apparaitre, en dehors de l'écran
-        private static Location[,] spawners =
-        {
-            {new Location(-width, axesY[0]), new Location(Config.GAMESPACE_WIDTH + width ,axesY[1])},
-            {new Location(-width, axesY[1]), new Location(Config.GAMESPACE_WIDTH + width ,axesY[1])}
-        };
+        private static Location[,] spawners = MathHelpers.DefineIntersections(new List<int> { -width, Config.GAMESPACE_WIDTH + width }, axesY);
 
         private double Hp
         {
@@ -71,7 +66,7 @@ namespace ShootMeUp.Model
         public Ennemi()
         {
             //apparition aléatoire dans l'un des spawners
-            this.Position = spawners[RndValueHelpers.Next(0, 2), RndValueHelpers.Next(0, 2)];
+            this.Position = spawners[RndValueHelpers.Next(0, 2), RndValueHelpers.Next(0, axesY.Count - 1)];
             this._hp = Config.ENNEMI_HP;
         }
 
@@ -105,7 +100,7 @@ namespace ShootMeUp.Model
                     Position.Y += speed;
                 else if (objectif.Y < Position.Y)
                     Position.Y -= speed;
-            }            
+            }
         }
 
         /// <summary>
@@ -125,22 +120,22 @@ namespace ShootMeUp.Model
         /// <returns>Objectif choisi</returns>
         private Location ChooseObjective()
         {
-            // Essayer 50 fois de choisir un objectif qui n'est pas en diagonale de la position actuelle.
-            for (int i = 0; i < 50; i++)
+            bool direction = RndValueHelpers.Next(0, 2) == 0;
+            if (direction)
             {
-                int objX = RndValueHelpers.Next(0, 3);
-                int objY = RndValueHelpers.Next(0, 2);
-                Location obj = objectifs[RndValueHelpers.Next(0, 2), RndValueHelpers.Next(0, 3)];
-
-                if (obj.Y != Position.Y && obj.X != Position.X)
-                    continue;
-                else
-                    return objectifs[objY, objX];
+                // Choisir un objectif sur la même ligne horizontale
+                int objX = RndValueHelpers.Next(0, axesX.Count);
+                int closestYIndex = axesY.IndexOf(MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(Position.Y)), axesY));
+                return objectifs[objX, closestYIndex];
             }
-            // si échoué après 50 essais, retourner le premier objectif par défaut, afin d'éviter une boucle infinie.
-            return objectifs[0, 0];
+            else
+            {
+                // Choisir un objectif sur la même ligne verticale
+                int objY = RndValueHelpers.Next(0, axesY.Count);
+                int closestXIndex = axesX.IndexOf(MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(Position.X)), axesX));
+                return objectifs[closestXIndex, objY];
+            }
         }
-
         #endregion
 
         #region  ================ Rendu graphique  ================
