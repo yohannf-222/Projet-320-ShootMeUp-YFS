@@ -35,7 +35,7 @@ namespace ShootMeUp.Model
             {new Location(-width, axesY[1]), new Location(Config.GAMESPACE_WIDTH + width ,axesY[1])}
         };
 
-        public double Hp
+        private double Hp
         {
             get => _hp;
             set
@@ -55,6 +55,7 @@ namespace ShootMeUp.Model
             get => _position;
             set
             {
+                // Empêcher les ennemis de sortir des axes définis
                 if (axesX.Contains(Convert.ToInt16(Math.Round(value.X))))
                     _position = value;
                 else
@@ -91,16 +92,26 @@ namespace ShootMeUp.Model
                 Position.Y = objectif.Y;
             }
 
-            if (objectif.X > Position.X)
-                Position.X += speed;
-            else if (objectif.X < Position.X)
-                Position.X -= speed;
-            else if (objectif.Y > Position.Y)
-                Position.Y += speed;
-            else if (objectif.Y < Position.Y)
-                Position.Y -= speed;
+            if (objectif.X != Position.X)
+            {
+                if (objectif.X > Position.X)
+                    Position.X += speed;
+                else if (objectif.X < Position.X)
+                    Position.X -= speed;
+            }
+            else if (objectif.Y != Position.Y)
+            {
+                if (objectif.Y > Position.Y)
+                    Position.Y += speed;
+                else if (objectif.Y < Position.Y)
+                    Position.Y -= speed;
+            }            
         }
 
+        /// <summary>
+        /// Ordonner à l'ennmi de prendre des dégats, afin de garder Hp privé.
+        /// </summary>
+        /// <param name="damage"></param>
         public void GetHit(int damage)
         {
             Hp -= damage;
