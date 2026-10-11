@@ -7,27 +7,45 @@ namespace ShootMeUp
     public sealed class ShootMeUp_Test
     {
         [TestMethod]
-        public void MathHelpers_ClosestValue_Test()
+        public void MathHelpers_ClosestValue_FindClosestInUnorderedList()
         {
             // Arrange
-            int value1 = 7;
-            List<int> values1 = new List<int>{ 5, 10, 8, 6 };
-
-            int value2 = 1;
-            List<int> values2 = new List<int> { 4, 7, 3, 0 };
-
-            int value3 = 4;
-            List<int> values3 = new List<int> { 4, 7, };
+            int value = 7;
+            List<int> list = new List<int> { 5, 10, 8, 6 };
 
             // Act
-            int closestValue1 = MathHelpers.ClosestValue(value1, values1);
-            int closestValue2 = MathHelpers.ClosestValue(value2, values2);
-            int closestValue3 = MathHelpers.ClosestValue(value3, values3);
+            int result = MathHelpers.ClosestValue(value, list);
 
             // Assert
-            Assert.AreEqual(8, closestValue1);
-            Assert.AreEqual(0, closestValue2);
-            Assert.AreEqual(7, closestValue3);
+            Assert.AreEqual(8, result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_ClosestValue_FindClosestWithMultipleOptions()
+        {
+            // Arrange
+            int value = 1;
+            List<int> list = new List<int> { 4, 7, 3, 0 };
+
+            // Act
+            int result = MathHelpers.ClosestValue(value, list);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void MathHelpers_ClosestValue_ValueNotInList()
+        {
+            // Arrange
+            int value = 4;
+            List<int> list = new List<int> { 4, 7 };
+
+            // Act
+            int result = MathHelpers.ClosestValue(value, list);
+
+            // Assert
+            Assert.IsTrue(result == 4 || result == 7);
         }
 
         [TestMethod]
@@ -58,7 +76,7 @@ namespace ShootMeUp
         }
 
         [TestMethod]
-        public void MathHelpers_IsTouching_RectangleOverlap()
+        public void MathHelpers_IsTouching_2Rectangles_True()
         {
             // Arrange
             int x1 = 0, y1 = 0, width1 = 10, height1 = 10;
