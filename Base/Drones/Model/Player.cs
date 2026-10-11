@@ -24,10 +24,7 @@ namespace ShootMeUp.Model
 
         public enum State { ALIVE, DEAD, STOPPED };             // les états possibles dans lequel le joueur peut être
 
-        private int _hp = Config.PLAYER_HP;
-
-        static Font HpFont = new Font(TextHelpers.drawFont.FontFamily, 24);  // Police pour Hp
-        static Brush redBrush = new SolidBrush(Color.Red);
+        private int _hp = Config.PLAYER_HP;      
 
         public double X
         {
@@ -126,7 +123,7 @@ namespace ShootMeUp.Model
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);
-            drawingSpace.Graphics.DrawString($"{Hp}/{Config.PLAYER_HP}", Player.HpFont, Player.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 130), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 50));
+            drawingSpace.Graphics.DrawString($"{Hp}/{Config.PLAYER_HP}", TextHelpers.HpFont, TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 130), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 50));
         }
         #endregion
     }
