@@ -2,9 +2,13 @@
 using ShootMeUp.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ShootMeUp.Model
 {
@@ -15,8 +19,11 @@ namespace ShootMeUp.Model
         private double _hp;
         public static readonly int width = 14 * Config.PIXEL_SIZE_MULTIPLYER;   // Largeur de l'ennemi
         public static readonly int height = 30 * Config.PIXEL_SIZE_MULTIPLYER;  // Hauteur de l'ennemi
-        private Location objectif;
+        private Location _objectif;
         private static int speed = Config.ENNEMI_SPEED;
+
+        private static int count = 0;
+        private int _id;
 
         // Axes sur lesquels les ennemis peuvent se déplacer
         // axesX : positions X possibles (droites verticales)
@@ -50,16 +57,19 @@ namespace ShootMeUp.Model
             get => _position;
             set
             {
-                // Empêcher les ennemis de sortir des axes définis
-                if (axesX.Contains(Convert.ToInt16(Math.Round(value.X))) || new List<int> { -width, Config.GAMESPACE_WIDTH + width }.Contains(Convert.ToInt16(Math.Round(value.X))))
-                    _position.X = value.X;
-                else
-                    _position.X = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.X)), axesX);
+                // vérifier si x et y sont sur des axes valides
+                bool xOnAxis = axesX.Contains(Convert.ToInt16(Math.Round(value.X)));
+                bool yOnAxis = axesY.Contains(Convert.ToInt16(Math.Round(value.Y)));
 
-                if (axesY.Contains(Convert.ToInt16(Math.Round(value.Y))))
-                    _position.Y = value.Y;
-                else
-                    _position.Y = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.Y)), axesY);
+                // si x et y ne sont pas sur des axes valides, trouver la position valide la plus proche
+                if (!xOnAxis && !yOnAxis)
+                {       
+                   _position = ClosestValidLocation(value);
+                }            
+                // sinon, si seul x OU y est hors axes, on accepte le changement
+                else 
+                    _position.X = value.X;
+
             }
         }
 
@@ -68,44 +78,47 @@ namespace ShootMeUp.Model
             //apparition aléatoire dans l'un des spawners
             this._position = spawners[RndValueHelpers.Next(0, spawners.Count)];
             this._hp = Config.ENNEMI_HP;
-            objectif = ChooseObjective();
+            this._objectif = ChooseObjective();
+            count++;
+            this._id = count;
         }
 
 
         #region ================ Modelisation de l'ennemi et de son comportement ================
         public void Update(int interval)
         {
-            if (objectif == null || MathHelpers.CalculateDistance(Position.X, Position.Y, objectif.X, objectif.Y) <= speed)
-                objectif = ChooseObjective();
+            if (_objectif == null || MathHelpers.CalculateDistance(Position.X, Position.Y, _objectif.X, _objectif.Y) <= speed)
+                _objectif = ChooseObjective();
 
             // Si on est assez proche de l'objectif, on arrondis X et Y pour être dessus
-            if (Math.Abs(Position.X - objectif.X) <= speed)
+            if (Math.Abs(Position.X - _objectif.X) <= speed)
             {
-                Position.X = objectif.X;
+                Position.X = _objectif.X;
             }
-            else if (Math.Abs(Position.Y - objectif.Y) <= speed)
+            
+            if (Math.Abs(Position.Y - _objectif.Y) <= speed)
             {
-                Position.Y = objectif.Y;
+                Position.Y = _objectif.Y;
             }
 
-            if (objectif.X != Position.X)
+            if (_objectif.X != Position.X)
             {
-                if (objectif.X > Position.X)
+                if (_objectif.X > Position.X)
                     Position.X += speed;
-                else if (objectif.X < Position.X)
+                else if (_objectif.X < Position.X)
                     Position.X -= speed;
             }
-            else if (objectif.Y != Position.Y)
+            else if (_objectif.Y != Position.Y)
             {
-                if (objectif.Y > Position.Y)
+                if (_objectif.Y > Position.Y)
                     Position.Y += speed;
-                else if (objectif.Y < Position.Y)
+                else if (_objectif.Y < Position.Y)
                     Position.Y -= speed;
             }
         }
 
         /// <summary>
-        /// Ordonner à l'ennmi de prendre des dégats, afin de garder Hp privé.
+        /// Ordonner à l'ennemi de prendre des dégats, afin de garder Hp privé.
         /// </summary>
         /// <param name="damage"></param>
         public void GetHit(int damage)
@@ -121,7 +134,7 @@ namespace ShootMeUp.Model
         /// <returns>Objectif choisi</returns>
         private Location ChooseObjective()
         {
-            bool direction = RndValueHelpers.Next(0, 2) == 0;
+            bool direction = RndValueHelpers.Next(0, 2) == 0;            
             if (direction)
             {
                 // Choisir un objectif sur la même ligne horizontale
@@ -136,6 +149,8 @@ namespace ShootMeUp.Model
                 int closestXIndex = axesX.IndexOf(MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(Position.X)), axesX));
                 return objectifs[closestXIndex, objY];
             }
+
+            
         }
         #endregion
 
@@ -161,12 +176,37 @@ namespace ShootMeUp.Model
             return spawners;
         }
 
+        /// <summary>
+        /// Prends une position et retourne la position la plus proche sur les axes définis.
+        /// </summary>
+        /// <param name="value">La position à rapprocher des axes</param>
+        /// <returns>La position la plus proche sur les axes définis</returns>
+        private static Location ClosestValidLocation(Location value)
+        {
+            // Trouver la valeur la plus proche pour X et Y
+            int closestX = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.X)), axesX);
+            int closestY = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.Y)), axesY);
+
+            // Calculer la différence pour savoir laquelle est la plus proche de l'axe
+            double deltaX = Math.Abs(value.X - closestX);
+            double deltaY = Math.Abs(value.Y - closestY);
+
+            // Retourner la position la plus proche
+            if (deltaX < deltaY)
+                return new Location { X = closestX, Y = value.Y };
+            else
+                return new Location { X = value.X, Y = closestY };
+        }
+
         #region  ================ Rendu graphique  ================
 
         // Afficher l'ennemi
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
+            drawingSpace.Graphics.DrawRectangle(Pens.Red, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y), width, height);
+            drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
+            drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y));
         }
         #endregion
     }

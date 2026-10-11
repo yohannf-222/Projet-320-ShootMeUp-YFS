@@ -22,11 +22,10 @@ namespace ShootMeUp
             List<Obstacle> obstacles = Obstacle.GenerateObstacles(5);
 
             List<Ennemi> ennemis = new List<Ennemi>();
-            ennemis.Add(new Ennemi());
-            ennemis.Add(new Ennemi());
-            ennemis.Add(new Ennemi());
-            ennemis.Add(new Ennemi());
-
+            for (int i = 0; i < 10; i++)
+            {
+                ennemis.Add(new Ennemi());
+            }
             // Démarrage
             Application.Run(new GameSpace(player, gouvernails, obstacles, ennemis));
         }
