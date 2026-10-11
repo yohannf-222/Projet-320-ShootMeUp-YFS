@@ -54,11 +54,11 @@ namespace ShootMeUp.Model
 
                 // si x et y ne sont pas sur des axes valides, trouver la position valide la plus proche
                 if (!xOnAxis && !yOnAxis)
-                {       
-                   _position = ClosestValidLocation(value);
-                }            
+                {
+                    _position = ClosestValidLocation(value);
+                }
                 // sinon, si seul x OU y est hors axes, on accepte le changement
-                else 
+                else
                     _position.X = value.X;
 
             }
@@ -86,7 +86,7 @@ namespace ShootMeUp.Model
             {
                 Position.X = _objectif.X;
             }
-            
+
             if (Math.Abs(Position.Y - _objectif.Y) <= speed)
             {
                 Position.Y = _objectif.Y;
@@ -116,7 +116,7 @@ namespace ShootMeUp.Model
         /// <returns>Objectif choisi</returns>
         private Location ChooseObjective()
         {
-            bool direction = RndValueHelpers.Next(0, 2) == 0;            
+            bool direction = RndValueHelpers.Next(0, 2) == 0;
             if (direction)
             {
                 // Choisir un objectif sur la même ligne horizontale
@@ -132,7 +132,7 @@ namespace ShootMeUp.Model
                 return objectifs[closestXIndex, objY];
             }
 
-            
+
         }
         #endregion
 
@@ -143,10 +143,10 @@ namespace ShootMeUp.Model
         private static List<Location> DefineSpawners()
         {
             List<Location> spawners = new List<Location>();
-            
+
             for (int i = 0; i < axesX.Count; i++)
             {
-                spawners.Add(new Location(axesX[i], -height ));
+                spawners.Add(new Location(axesX[i], -height));
             }
 
             for (int i = 0; i < axesY.Count; i++)
@@ -174,9 +174,9 @@ namespace ShootMeUp.Model
 
             // Retourner la position la plus proche
             if (deltaX < deltaY)
-                return new Location (closestX, Convert.ToInt16(Math.Round(value.Y)));
+                return new Location(closestX, Convert.ToInt16(Math.Round(value.Y)));
             else
-                return new Location (Convert.ToInt16(Math.Round(value.X)), closestY);
+                return new Location(Convert.ToInt16(Math.Round(value.X)), closestY);
         }
 
         #region  ================ Rendu graphique  ================

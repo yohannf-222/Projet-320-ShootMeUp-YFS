@@ -7,7 +7,7 @@
         public static SolidBrush writingBrush = new SolidBrush(Color.Black);
 
         // Police pour Hp
-        public static Font HpFont = new Font(TextHelpers.drawFont.FontFamily, 24);  
-        public static Brush redBrush = new SolidBrush(Color.Red);                   
+        public static Font HpFont = new Font(TextHelpers.drawFont.FontFamily, 24);
+        public static Brush redBrush = new SolidBrush(Color.Red);
     }
 }

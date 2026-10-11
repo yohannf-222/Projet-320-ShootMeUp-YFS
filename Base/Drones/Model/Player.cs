@@ -24,7 +24,7 @@ namespace ShootMeUp.Model
 
         public enum State { ALIVE, DEAD, STOPPED };             // les états possibles dans lequel le joueur peut être
 
-        private int _hp = Config.PLAYER_HP;      
+        private int _hp = Config.PLAYER_HP;
 
         public double X
         {

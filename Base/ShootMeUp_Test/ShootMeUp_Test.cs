@@ -58,7 +58,7 @@ namespace ShootMeUp
             Location[,] expectedPoints = new Location[2, 3]
             {
                 { new Location(1, 4), new Location(2, 4) , new Location(3, 4)},
-                { new Location(1, 5), new Location(2, 5) , new Location(3, 5)}                
+                { new Location(1, 5), new Location(2, 5) , new Location(3, 5)}
             };
 
             // Act
@@ -184,7 +184,7 @@ namespace ShootMeUp
             // Assert
             // La methode n'étant pas parfaite, mettre 7 dans le Assert serait faux.
             // Je ne compte pas changer la methode car son fonctionnement est suffisant pour le jeu.
-            Assert.AreEqual(5, result); 
+            Assert.AreEqual(5, result);
         }
 
         [TestMethod]

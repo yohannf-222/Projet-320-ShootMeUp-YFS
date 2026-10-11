@@ -77,7 +77,7 @@ namespace ShootMeUp.Helpers
         {
             int difference = list[0] - a;
             for (int i = 1; i < list.Count; i++)
-            {                
+            {
                 if (Math.Abs(list[i] - a) < Math.Abs(difference))
                     difference = list[i] - a;
 

@@ -136,7 +136,7 @@ namespace ShootMeUp
                         gouvernails.RemoveAt(j);
                         obstacles[i].GetHit(Config.GOUVERNAIL_DAMAGE);
                         return;
-                    }                   
+                    }
                 }
             }
 

@@ -29,7 +29,7 @@ namespace ShootMeUp.Model
                 else if (Hp < 0)
                     _hp = 0;
                 else
-                    _hp = value;                
+                    _hp = value;
             }
         }
         public int State
@@ -58,7 +58,7 @@ namespace ShootMeUp.Model
         {
             // Chaque changement de Hp peut changer l'état, chaque quart de totHp = plus 1 dans state
             State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));
-            
+
             //Régénération des obstacles dans le temps
             if (Hp < Config.OBSTACLE_HP)
                 Hp += 0.5;
