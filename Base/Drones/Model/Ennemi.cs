@@ -22,13 +22,13 @@ namespace ShootMeUp.Model
         // axesX : positions X possibles (droites verticales)
         // axesY : positions Y possibles (droites horizontales)
         private static List<int> axesX = new List<int> { Config.GAMESPACE_WIDTH / 6, Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_WIDTH / 6 * 5 };
-        private static List<int> axesY = new List<int> { Config.GAMESPACE_HEIGHT / 6 * 1, Config.GAMESPACE_HEIGHT / 6 * 2, Config.GAMESPACE_HEIGHT / 6 * 3 };
+        private static List<int> axesY = new List<int> { Config.GAMESPACE_HEIGHT / 7 * 1, Config.GAMESPACE_HEIGHT / 7 * 2, Config.GAMESPACE_HEIGHT / 7 * 3 };
 
         // Points entre lesquels les ennemis se déplacent
         private static Location[,] objectifs = MathHelpers.DefineIntersections(axesX, axesY);
 
         // Endroit où les ennemis peuvent apparaitre, en dehors de l'écran
-        private static Location[,] spawners = MathHelpers.DefineIntersections(new List<int> { -width, Config.GAMESPACE_WIDTH + width }, axesY);
+        private static List<Location> spawners = DefineSpawners();
 
         private double Hp
         {
@@ -51,13 +51,13 @@ namespace ShootMeUp.Model
             set
             {
                 // Empêcher les ennemis de sortir des axes définis
-                if (axesX.Contains(Convert.ToInt16(Math.Round(value.X))))
-                    _position = value;
+                if (axesX.Contains(Convert.ToInt16(Math.Round(value.X))) || new List<int> { -width, Config.GAMESPACE_WIDTH + width }.Contains(Convert.ToInt16(Math.Round(value.X))))
+                    _position.X = value.X;
                 else
                     _position.X = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.X)), axesX);
 
                 if (axesY.Contains(Convert.ToInt16(Math.Round(value.Y))))
-                    _position = value;
+                    _position.Y = value.Y;
                 else
                     _position.Y = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.Y)), axesY);
             }
@@ -66,8 +66,9 @@ namespace ShootMeUp.Model
         public Ennemi()
         {
             //apparition aléatoire dans l'un des spawners
-            this.Position = spawners[RndValueHelpers.Next(0, 2), RndValueHelpers.Next(0, axesY.Count - 1)];
+            this._position = spawners[RndValueHelpers.Next(0, spawners.Count)];
             this._hp = Config.ENNEMI_HP;
+            objectif = ChooseObjective();
         }
 
 
@@ -137,6 +138,28 @@ namespace ShootMeUp.Model
             }
         }
         #endregion
+
+        /// <summary>
+        /// Crée une liste de spawners pour les ennemis, en dehors de l'écran, sur les axes définis, en haut et sur les côtés.
+        /// </summary>
+        /// <returns>Une liste de Location où les ennemis peuvent apparaître</returns>
+        private static List<Location> DefineSpawners()
+        {
+            List<Location> spawners = new List<Location>();
+
+            foreach (int x in axesX)
+            {
+                spawners.Add(new Location { X = x, Y = -height });
+            }
+
+            foreach (int y in axesY)
+            {
+                spawners.Add(new Location { X = -width, Y = y });
+                spawners.Add(new Location { X = Config.GAMESPACE_WIDTH + width, Y = y });
+            }
+
+            return spawners;
+        }
 
         #region  ================ Rendu graphique  ================
 
