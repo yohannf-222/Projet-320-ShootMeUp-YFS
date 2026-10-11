@@ -86,5 +86,24 @@ namespace ShootMeUp.Helpers
             }
             return a + difference;
         }
+
+        /// <summary>
+        /// Définis automatiquement les objectifs de l'ennemi, en fonction des croisements des droites axesX et axesY définis.        
+        /// </summary>
+        /// <param name="axesX">les droites verticales</param>
+        /// <param name="axesY">les droites horizontales</param>
+        /// <returns>Le tableau contanant les intersections des droites</returns>
+        public static Location[,] DefineIntersections(List<int> axesX, List<int> axesY)
+        {
+            Location[,] objectifs = new Location[axesY.Count, axesX.Count];
+            for (int i = 0; i < axesX.Count; i++)
+            {
+                for (int j = 0; j < axesY.Count; j++)
+                {
+                    objectifs[j, i] = new Location(axesX[i], axesY[j]);
+                }
+            }
+            return objectifs;
+        }
     }
 }

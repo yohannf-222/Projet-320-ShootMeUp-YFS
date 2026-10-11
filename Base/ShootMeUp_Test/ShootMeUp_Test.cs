@@ -29,5 +29,32 @@ namespace ShootMeUp
             Assert.AreEqual(0, closestValue2);
             Assert.AreEqual(7, closestValue3);
         }
+
+        [TestMethod]
+        public void Ennemi_DefineIntersections_Test()
+        {
+            // Arrange
+            List<int> axesX = new List<int> { 1, 2, 3 };
+            List<int> axesY = new List<int> { 4, 5 };
+
+            Location[,] expectedPoints = new Location[2, 3]
+            {
+                { new Location(1, 4), new Location(2, 4) , new Location(3, 4)},
+                { new Location(1, 5), new Location(2, 5) , new Location(3, 5)}                
+            };
+
+            // Act
+            Location[,] actualPoints = MathHelpers.DefineIntersections(axesX, axesY);
+
+            // Assert
+            for (int i = 0; i < expectedPoints.GetLength(0); i++)
+            {
+                for (int j = 0; j < expectedPoints.GetLength(1); j++)
+                {
+                    Assert.AreEqual(expectedPoints[i, j].X, actualPoints[i, j].X);
+                    Assert.AreEqual(expectedPoints[i, j].Y, actualPoints[i, j].Y);
+                }
+            }
+        }
     }
 }
