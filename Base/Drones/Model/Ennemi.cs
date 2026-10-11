@@ -184,10 +184,10 @@ namespace ShootMeUp.Model
         // Afficher l'ennemi
         public void Render(BufferedGraphics drawingSpace)
         {
-            //drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
-            //drawingSpace.Graphics.DrawRectangle(Pens.Red, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y), width, height);
-            //drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
-            //drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y));
+            drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
+            drawingSpace.Graphics.DrawRectangle(Pens.Red, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y), width, height);
+            drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
+            drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y));
         }
         #endregion
     }
