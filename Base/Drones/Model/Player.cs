@@ -45,10 +45,10 @@ namespace ShootMeUp.Model
         {
             get => _hp;
             set
-            {                
-                if (Hp > Config.PLAYER_HP)
+            {
+                if (value > Config.PLAYER_HP)
                     _hp = Config.PLAYER_HP;
-                else if (Hp <= 0)
+                else if (value <= 0)
                     _state = State.DEAD;
                 else
                     _hp = value;
