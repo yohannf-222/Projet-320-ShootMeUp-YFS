@@ -26,7 +26,7 @@ namespace ShootMeUp.Model
             Y = y;
         }
 
-        #region ================ Modelisation du gouvernail et de son comportement ================
+        #region ================ Modelisation des projectiles ennemis et de son comportement ================
         public void Update()
         {
             Y += Config.ENNEMI_BULLET_SPEED;
