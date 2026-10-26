@@ -45,8 +45,7 @@ namespace ShootMeUp.Model
         {
             get => _hp;
             set
-            {
-                Console.WriteLine($"Player Hp: {value}");
+            {                
                 if (Hp > Config.PLAYER_HP)
                     _hp = Config.PLAYER_HP;
                 else if (Hp <= 0)

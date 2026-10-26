@@ -1,6 +1,8 @@
 using ShootMeUp.Helpers;
 using ShootMeUp.Model;
+using System.Diagnostics.Metrics;
 using System.Numerics;
+using System.Reflection;
 namespace ShootMeUp
 {
     // La classe GameSpace représente la zone du jeu
@@ -22,6 +24,9 @@ namespace ShootMeUp
         // Les projectiles amis
         private List<Gouvernail> _gouvernails;
 
+        // Les projectiles ennemis
+        private List<Balle> _balles;
+
         //les obstacles
         private List<Obstacle> _obstacles;
 
@@ -32,7 +37,7 @@ namespace ShootMeUp
         BufferedGraphics gamespace;
 
         // Initialisation de l'espace du jeu avec le joueur
-        public GameSpace(Player player, List<Gouvernail> gouvernails, List<Obstacle> obstacles, List<Ennemi> ennemis)
+        public GameSpace(Player player, List<Gouvernail> gouvernails, List<Balle> balles, List<Obstacle> obstacles, List<Ennemi> ennemis)
         {
             InitializeComponent();
             ClientSize = new Size(WIDTH, HEIGHT);
@@ -47,6 +52,7 @@ namespace ShootMeUp
             // Ajoute les entités du jeu qui sont reçues en paramêtre dans les attributs de Gamespace
             this._player = player;
             this._gouvernails = gouvernails;
+            this._balles = balles;
             this._obstacles = obstacles;
             this._ennemis = ennemis;
         }
@@ -64,6 +70,12 @@ namespace ShootMeUp
             foreach (Gouvernail gouvernail in _gouvernails)
             {
                 gouvernail.Render(gamespace);
+            }
+
+            // Affichage des projectiles ennemis
+            foreach (Balle balle in _balles)
+            {
+                balle.Render(gamespace);
             }
 
             // Affichage des obstacles
@@ -92,6 +104,12 @@ namespace ShootMeUp
                 gouvernail.Update();
             }
 
+            // Update des projectiles ennemis
+            foreach (Balle balle in _balles)
+            {
+                balle.Update();
+            }
+
             // Update des obstacles
             foreach (Obstacle obstacle in _obstacles)
             {
@@ -102,10 +120,20 @@ namespace ShootMeUp
             foreach (Ennemi ennemi in _ennemis)
             {
                 ennemi.Update(interval);
+
+                if (ennemi.counter < 50)
+                {
+                    ennemi.counter++;
+                }
+                else
+                {
+                    ennemi.counter = 0;
+                    _balles.Add(new Balle(ennemi.Position.X, ennemi.Position.Y));
+                }
             }
 
             // Appel de la méthode qui gère les impacts de projectiles
-            ManageHits(ref _gouvernails, _player, _obstacles, _ennemis);
+            ManageHits(ref _gouvernails, ref _balles, _player, _obstacles, _ennemis);
 
             // Vide les inputs de la souris
             _mouse = null;
@@ -119,12 +147,13 @@ namespace ShootMeUp
         }
 
         /// <summary>
-        /// Supprime les projectiles qui touchent un obstacle et font des dégats à l'élément touché. 
+        /// Gère les projectiles et les collisions entre ces derniers et les objets. Supprime ceux qui sortent du terrain. 
         /// </summary>
         /// <param name="gouvernails">Liste des gouvernails, modifiée directement</param>
+        /// <param name="balles">Liste des projectiles ennemis, modifiée directement</param>
         /// <param name="player">Objet joueur</param>
         /// <param name="obstacles">liste des obstacles</param>
-        private void ManageHits(ref List<Gouvernail> gouvernails, Player player, List<Obstacle> obstacles, List<Ennemi> ennemis)
+        private void ManageHits(ref List<Gouvernail> gouvernails, ref List<Balle> balles, Player player, List<Obstacle> obstacles, List<Ennemi> ennemis)
         {
             for (int i = obstacles.Count - 1; i >= 0; i--)
             {
@@ -165,6 +194,40 @@ namespace ShootMeUp
                         || gouvernails[i].Y > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[i].Y < -(Config.OBJECT_DELETION_MARGIN))
                 {
                     gouvernails.RemoveAt(i);
+                }
+            }
+
+            for (int i = obstacles.Count - 1; i >= 0; i--)
+            {
+                for (int j = balles.Count - 1; j >= 0; j--)
+                {
+                    if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, balles[j].X, balles[j].Y, Balle.width, Balle.height)
+                        && obstacles[i].State > 0)
+                    {
+                        balles.RemoveAt(j);
+                        obstacles[i].GetHit(Config.ENNEMI_DAMAGE);
+                        return;
+                    }
+                }
+            }
+
+            for (int j = balles.Count - 1; j >= 0; j--)
+            {
+                if (MathHelpers.IsTouching(player.X, player.Y, Ennemi.width, Ennemi.height, balles[j].X, balles[j].Y, Balle.width, Balle.height))
+                {
+                    balles.RemoveAt(j);
+                    player.Hp -= Config.ENNEMI_DAMAGE;
+                    return;
+                }
+
+            }
+
+            for (int i = balles.Count - 1; i >= 0; i--)
+            {
+                if (balles[i].X > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || balles[i].X < -(Config.OBJECT_DELETION_MARGIN)
+                        || balles[i].Y > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || balles[i].Y < -(Config.OBJECT_DELETION_MARGIN))
+                {
+                    balles.RemoveAt(i);
                 }
             }
         }
