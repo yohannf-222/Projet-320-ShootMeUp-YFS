@@ -14,7 +14,7 @@ namespace ShootMeUp
             List<int> list = new List<int> { 5, 10, 8, 6 };
 
             // Act
-            int result = MathHelpers.ClosestValue(value, list);
+            int result = MathHelpers.CloseValueIn(value, list);
 
             // Assert
             Assert.AreEqual(8, result);
@@ -28,7 +28,7 @@ namespace ShootMeUp
             List<int> list = new List<int> { 4, 7, 3, 0 };
 
             // Act
-            int result = MathHelpers.ClosestValue(value, list);
+            int result = MathHelpers.CloseValueIn(value, list);
 
             // Assert
             Assert.AreEqual(0, result);
@@ -42,7 +42,7 @@ namespace ShootMeUp
             List<int> list = new List<int> { 4, 7 };
 
             // Act
-            int result = MathHelpers.ClosestValue(value, list);
+            int result = MathHelpers.CloseValueIn(value, list);
 
             // Assert
             Assert.IsTrue(result == 4 || result == 7);
@@ -165,7 +165,7 @@ namespace ShootMeUp
             List<int> list = new List<int> { 1, 3, 5, 7, 9 };
 
             // Act
-            int result = MathHelpers.ClosestValue(value, list);
+            int result = MathHelpers.CloseValueIn(value, list);
 
             // Assert
             Assert.AreEqual(5, result);
@@ -179,7 +179,7 @@ namespace ShootMeUp
             List<int> list = new List<int> { 1, 3, 5, 7, 9 };
 
             // Act
-            int result = MathHelpers.ClosestValue(value, list);
+            int result = MathHelpers.CloseValueIn(value, list);
 
             // Assert
             // La methode n'étant pas parfaite, mettre 7 dans le Assert serait faux.

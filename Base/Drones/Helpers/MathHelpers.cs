@@ -68,23 +68,26 @@ namespace ShootMeUp.Helpers
         }
 
         /// <summary>
-        /// Retourne la valeur d'une liste donnée la plus proche d'une valeur donnée
+        /// Retourne la valeur d'une liste donnée la plus proche d'une valeur donnée (ou la premiere trouvée si égalité).
         /// </summary>
         /// <param name="a">Valeur</param>
         /// <param name="list">liste des valeurs dans laquelle il faut trouver la plus proche</param>
         /// <returns>La valeur de la liste la plus proche de la valeur donnée</returns>
-        public static int ClosestValue(int a, List<int> list)
+        public static int CloseValueIn(int a, List<int> list)
         {
-            int difference = list[0] - a;
+            if (list.Count == 0)
+                throw new ArgumentException("La liste ne peut pas être vide.");
+
+            int closestValue = list[0];
             for (int i = 1; i < list.Count; i++)
             {
-                if (Math.Abs(list[i] - a) < Math.Abs(difference))
-                    difference = list[i] - a;
+                if (Math.Abs(list[i] - a) < Math.Abs(closestValue - a))
+                    closestValue = list[i];
 
-                if (difference == 0)
-                    return list[i];
+                if (closestValue == a)
+                    return closestValue;
             }
-            return a + difference;
+            return closestValue;
         }
 
         /// <summary>

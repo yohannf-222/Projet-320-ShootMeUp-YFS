@@ -110,7 +110,7 @@ namespace ShootMeUp.Model
         }
 
         /// <summary>
-        /// Choisir un objectif aléatoire parmi les objectifs donnés, seulement dans des directions cardinales.
+        /// Choisir un objectif aléatoire parmi les objectifs donnés, sur les points prédéfinis.
         /// </summary>
         /// <param name="objectifs">Les objectifs possibles</param>
         /// <param name="position">Position actuelle de l'ennemi</param>
@@ -122,14 +122,14 @@ namespace ShootMeUp.Model
             {
                 // Choisir un objectif sur la même ligne horizontale
                 int objX = RndValueHelpers.Next(0, axesX.Count);
-                int closestYIndex = axesY.IndexOf(MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(Position.Y)), axesY));
+                int closestYIndex = axesY.IndexOf(MathHelpers.CloseValueIn(Convert.ToInt16(Math.Round(Position.Y)), axesY));
                 return objectifs[objX, closestYIndex];
             }
             else
             {
                 // Choisir un objectif sur la même ligne verticale
                 int objY = RndValueHelpers.Next(0, axesY.Count);
-                int closestXIndex = axesX.IndexOf(MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(Position.X)), axesX));
+                int closestXIndex = axesX.IndexOf(MathHelpers.CloseValueIn(Convert.ToInt16(Math.Round(Position.X)), axesX));
                 return objectifs[closestXIndex, objY];
             }
 
@@ -166,8 +166,8 @@ namespace ShootMeUp.Model
         private static Location ClosestValidLocation(Location value)
         {
             // Trouver la valeur la plus proche pour X et Y
-            int closestX = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.X)), axesX);
-            int closestY = MathHelpers.ClosestValue(Convert.ToInt16(Math.Round(value.Y)), axesY);
+            int closestX = MathHelpers.CloseValueIn(Convert.ToInt16(Math.Round(value.X)), axesX);
+            int closestY = MathHelpers.CloseValueIn(Convert.ToInt16(Math.Round(value.Y)), axesY);
 
             // Calculer la différence pour savoir laquelle est la plus proche de l'axe
             double deltaX = Math.Abs(value.X - closestX);

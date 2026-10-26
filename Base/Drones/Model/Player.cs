@@ -49,7 +49,7 @@ namespace ShootMeUp.Model
                 if (value > Config.PLAYER_HP)
                     _hp = Config.PLAYER_HP;
                 else if (value <= 0)
-                    _state = State.DEAD;
+                    _state = State.DEAD;    
                 else
                     _hp = value;
             }
