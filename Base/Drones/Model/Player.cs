@@ -14,7 +14,7 @@ namespace ShootMeUp.Model
 
         private double _x;                                      // Position en X depuis la gauche de l'espace
         private double _y;                                      // Position en Y depuis le haut de l'espace
-        private int _score;                                  // Score du joueur
+        public int _score;                                     // Score du joueur
 
         private static readonly int WIDTH = 26 * Config.PIXEL_SIZE_MULTIPLYER;          // Dimension du joueur, largeur
         private static readonly int HEIGHT = 43 * Config.PIXEL_SIZE_MULTIPLYER;         // Dimension du joueur, hauteur
@@ -128,7 +128,8 @@ namespace ShootMeUp.Model
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);
-            drawingSpace.Graphics.DrawString($"{Hp}/{Config.PLAYER_HP}", TextHelpers.HpFont, TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 180), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
+            drawingSpace.Graphics.DrawString($"HP : {Hp}/{Config.PLAYER_HP}", TextHelpers.HpFont, TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 280), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
+            drawingSpace.Graphics.DrawString($"SCORE : {_score}", TextHelpers.HpFont, TextHelpers.blueBrush, 100, Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
         }
         #endregion
     }

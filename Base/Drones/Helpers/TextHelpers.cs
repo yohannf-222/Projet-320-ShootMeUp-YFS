@@ -9,5 +9,6 @@
         // Police pour Hp
         public static Font HpFont = new Font(TextHelpers.drawFont.FontFamily, 24);
         public static Brush redBrush = new SolidBrush(Color.Red);
+        public static Brush blueBrush = new SolidBrush(Color.Blue);
     }
 }

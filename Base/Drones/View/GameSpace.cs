@@ -181,6 +181,7 @@ namespace ShootMeUp
                         {
                             ennemis.RemoveAt(i);
                             ennemis.Add(new Ennemi());
+                            player._score += 100;
                         }
                         return;
                     }
