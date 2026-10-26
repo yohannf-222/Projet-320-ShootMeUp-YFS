@@ -14,6 +14,7 @@ namespace ShootMeUp.Model
 
         private double _x;                                      // Position en X depuis la gauche de l'espace
         private double _y;                                      // Position en Y depuis le haut de l'espace
+        private int _score;                                  // Score du joueur
 
         private static readonly int WIDTH = 26 * Config.PIXEL_SIZE_MULTIPLYER;          // Dimension du joueur, largeur
         private static readonly int HEIGHT = 43 * Config.PIXEL_SIZE_MULTIPLYER;         // Dimension du joueur, hauteur
@@ -49,7 +50,10 @@ namespace ShootMeUp.Model
                 if (value > Config.PLAYER_HP)
                     _hp = Config.PLAYER_HP;
                 else if (value <= 0)
-                    _state = State.DEAD;    
+                {
+                    _state = State.DEAD;
+                    _hp = value;
+                }                    
                 else
                     _hp = value;
             }
@@ -69,6 +73,8 @@ namespace ShootMeUp.Model
             // Ne faire le reste que si le joueur est vivant
             if (_state != State.ALIVE)
                 return;
+
+            _score++;
 
             // Au clic gauche, instancier un gouvernail au milieu du personnage
             if (mouse != null && _cooldown >= Config.GOUVERNAIL_COOLDOWN && Convert.ToString(mouse.Button) == "Left")
