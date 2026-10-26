@@ -10,12 +10,13 @@ namespace ShootMeUp.Model
 {
     public class Gouvernail
     {
-        private double _x;                              // Position en_xdepuis la gauche de l'espace 
+        private double _x;                              // Position en X depuis la gauche de l'espace 
         private double _y;                              // Position en Y depuis le haut de l'espace
         private double _xIncrement;
         private double _yIncrement;
         public double X { get => _x; set => _x = value; }
         public double Y { get => _y; set => _y = value; }
+        private static int radius = 42;
 
         /// <summary>
         /// Projectiles du joueur, part du joueur et continuent d'avancer dans la direction donnée (souris).
@@ -51,7 +52,7 @@ namespace ShootMeUp.Model
         // Afficher le gouvernail, centré sur sa position X/Y
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, 42 * Config.PIXEL_SIZE_MULTIPLYER, 42 * Config.PIXEL_SIZE_MULTIPLYER);
+            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, radius * Config.PIXEL_SIZE_MULTIPLYER, radius * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }
