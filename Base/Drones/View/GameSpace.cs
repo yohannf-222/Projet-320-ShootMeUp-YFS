@@ -10,10 +10,11 @@ namespace ShootMeUp
     // Il n'y a donc pas de notion d'altitude qui intervient
     public partial class GameSpace : Form
     {
-        public static List<char> keysPressed = new List<char>();          // Liste contenant les touches qui sont en train d'être pressées 
+        public bool isPaused = false;                                       // Booléen qui indique si le jeu est en pause ou non
+        public static List<char> keysPressed = new List<char>();            // Liste contenant les touches qui sont en train d'être pressées 
 
-        public static readonly int WIDTH = Config.GAMESPACE_WIDTH;      // Dimensions du gamespace, largeur
-        public static readonly int HEIGHT = Config.GAMESPACE_HEIGHT;    // Dimensions du gamespace, hauteur
+        public static readonly int WIDTH = Config.GAMESPACE_WIDTH;          // Dimensions du gamespace, largeur
+        public static readonly int HEIGHT = Config.GAMESPACE_HEIGHT;        // Dimensions du gamespace, hauteur
 
         //les clics de la souris
         public static MouseEventArgs? _mouse;
@@ -95,45 +96,49 @@ namespace ShootMeUp
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
-            // Update du joueur
-            _player.Update(interval, _mouse, ref _gouvernails);
-
-            // Update des projectiles amis
-            foreach (Gouvernail gouvernail in _gouvernails)
+            if (!isPaused)
             {
-                gouvernail.Update();
-            }
+                // Update du joueur
+                _player.Update(interval, _mouse, ref _gouvernails);
 
-            // Update des projectiles ennemis
-            foreach (Balle balle in _balles)
-            {
-                balle.Update();
-            }
-
-            // Update des obstacles
-            foreach (Obstacle obstacle in _obstacles)
-            {
-                obstacle.Update(interval);
-            }
-
-            // Update des ennemis
-            foreach (Ennemi ennemi in _ennemis)
-            {
-                ennemi.Update(interval);
-
-                if (ennemi.counter < 50)
+                // Update des projectiles amis
+                foreach (Gouvernail gouvernail in _gouvernails)
                 {
-                    ennemi.counter++;
+                    gouvernail.Update();
                 }
-                else
-                {
-                    ennemi.counter = 0;
-                    _balles.Add(new Balle(ennemi.Position.X, ennemi.Position.Y));
-                }
-            }
 
-            // Appel de la méthode qui gère les impacts de projectiles
-            ManageHits(ref _gouvernails, ref _balles, _player, _obstacles, _ennemis);
+                // Update des projectiles ennemis
+                foreach (Balle balle in _balles)
+                {
+                    balle.Update();
+                }
+
+                // Update des obstacles
+                foreach (Obstacle obstacle in _obstacles)
+                {
+                    obstacle.Update(interval);
+                }
+
+                // Update des ennemis
+                foreach (Ennemi ennemi in _ennemis)
+                {
+                    ennemi.Update(interval);
+
+                    if (ennemi.counter < 50)
+                    {
+                        ennemi.counter++;
+                    }
+                    else
+                    {
+                        ennemi.counter = 0;
+                        _balles.Add(new Balle(ennemi.Position.X, ennemi.Position.Y));
+                    }
+                }
+
+                // Appel de la méthode qui gère les impacts de projectiles
+                ManageHits(ref _gouvernails, ref _balles, _player, _obstacles, _ennemis);
+
+            }
 
             // Vide les inputs de la souris
             _mouse = null;
