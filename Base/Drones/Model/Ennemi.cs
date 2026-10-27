@@ -21,14 +21,14 @@ namespace ShootMeUp.Model
         public static readonly int height = 30 * Config.PIXEL_SIZE_MULTIPLYER;  // Hauteur de l'ennemi
         public int counter = RndValueHelpers.Next(0, 40);
         private Location _objectif;
-        private static int speed = Config.ENNEMI_SPEED;        
+        private static int speed = Config.ENNEMI_SPEED;
         private static int count = 0;
         private int _id;
 
         // Axes sur lesquels les ennemis peuvent se déplacer
         // axesX : positions X possibles (droites verticales)
         // axesY : positions Y possibles (droites horizontales)
-        private static List<int> axesX = new List<int> { Config.GAMESPACE_WIDTH / 6, Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_WIDTH / 6 * 5 };
+        private static List<int> axesX = new List<int> { Config.GAMESPACE_WIDTH / 10, Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_WIDTH / 10 * 9 };
         private static List<int> axesY = new List<int> { Config.GAMESPACE_HEIGHT / 7 * 1, Config.GAMESPACE_HEIGHT / 7 * 2, Config.GAMESPACE_HEIGHT / 7 * 3 };
 
         // Points entre lesquels les ennemis se déplacent
@@ -77,7 +77,7 @@ namespace ShootMeUp.Model
 
         #region ================ Modelisation de l'ennemi et de son comportement ================
         public void Update(int interval)
-        {            
+        {
             if (_objectif == null || MathHelpers.CalculateDistance(Position.X, Position.Y, _objectif.X, _objectif.Y) <= speed)
                 _objectif = ChooseObjective();
 
@@ -106,7 +106,7 @@ namespace ShootMeUp.Model
                 else if (_objectif.Y < Position.Y)
                     Position.Y -= speed;
             }
-            
+
         }
 
         /// <summary>
