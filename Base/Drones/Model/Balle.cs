@@ -14,8 +14,8 @@ namespace ShootMeUp.Model
         private double _y;                              // Position en Y depuis le haut de l'espace
         public double X { get => _x; set => _x = value; }
         public double Y { get => _y; set => _y = value; }
-        public static readonly int width = 12 * Config.PIXEL_SIZE_MULTIPLYER;
-        public static readonly int height = 17 * Config.PIXEL_SIZE_MULTIPLYER;
+        public static readonly int width = 5 * Config.PIXEL_SIZE_MULTIPLYER;
+        public static readonly int height = 9 * Config.PIXEL_SIZE_MULTIPLYER;
 
         /// <summary>
         /// Projectiles ennemis, part de l'ennemi et continuent d'avancer dans la direction donnée.
