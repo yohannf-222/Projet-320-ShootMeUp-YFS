@@ -187,6 +187,10 @@ namespace ShootMeUp.Model
         {
             drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
             drawingSpace.Graphics.DrawRectangle(Pens.Red, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y), width, height);
+            foreach (Location loc in objectifs)
+            {
+                drawingSpace.Graphics.DrawRectangle(Pens.Green, Convert.ToSingle(loc.X), Convert.ToSingle(loc.Y), 20, 20);
+            }
             drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
             drawingSpace.Graphics.DrawString($"{_id}", TextHelpers.drawFont, TextHelpers.writingBrush, Convert.ToSingle(_objectif.X), Convert.ToSingle(_objectif.Y));
         }
