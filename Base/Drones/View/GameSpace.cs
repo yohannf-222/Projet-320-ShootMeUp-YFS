@@ -202,7 +202,7 @@ namespace ShootMeUp
             {
                 for (int j = balles.Count - 1; j >= 0; j--)
                 {
-                    if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, balles[j].X, balles[j].Y, Balle.width, Balle.height)
+                    if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, balles[j].X, balles[j].Y, Balle.width * Config.PIXEL_SIZE_MULTIPLYER, Balle.height * Config.PIXEL_SIZE_MULTIPLYER)
                         && obstacles[i].State > 0)
                     {
                         balles.RemoveAt(j);
@@ -214,7 +214,7 @@ namespace ShootMeUp
 
             for (int j = balles.Count - 1; j >= 0; j--)
             {
-                if (MathHelpers.IsTouching(player.X, player.Y, Ennemi.width, Ennemi.height, balles[j].X, balles[j].Y, Balle.width, Balle.height))
+                if (MathHelpers.IsTouching(player.X, player.Y, Ennemi.width, Ennemi.height, balles[j].X, balles[j].Y, Balle.width * Config.PIXEL_SIZE_MULTIPLYER, Balle.height * Config.PIXEL_SIZE_MULTIPLYER))
                 {
                     balles.RemoveAt(j);
                     player.Hp -= Config.ENNEMI_DAMAGE;
