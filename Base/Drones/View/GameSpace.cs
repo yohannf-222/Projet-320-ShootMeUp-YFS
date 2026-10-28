@@ -1,8 +1,10 @@
 using ShootMeUp.Helpers;
 using ShootMeUp.Model;
+using ShootMeUp.Properties;
 using System.Diagnostics.Metrics;
 using System.Numerics;
 using System.Reflection;
+using static System.Formats.Asn1.AsnWriter;
 namespace ShootMeUp
 {
     // La classe GameSpace représente la zone du jeu
@@ -60,36 +62,57 @@ namespace ShootMeUp
 
         // Affichage de la situation actuelle
         private void Render()
-        {
-            // Réinitialisation (visuelle) de l'environnement Gamespace
-            gamespace.Graphics.Clear(Color.AliceBlue);
-
-            // Affichage du joueur
-            _player.Render(gamespace);
-
-            // Affichage des projectiles amis
-            foreach (Gouvernail gouvernail in _gouvernails)
+        {            
+            if (!isPaused)
             {
-                gouvernail.Render(gamespace);
-            }
+                // Réinitialisation (visuelle) de l'environnement Gamespace
+                gamespace.Graphics.Clear(Color.AliceBlue);
 
-            // Affichage des projectiles ennemis
-            foreach (Balle balle in _balles)
-            {
-                balle.Render(gamespace);
-            }
+                if (Config.GAMESPACE_WIDTH / 2> Config.GAMESPACE_HEIGHT)
+                {
+                    gamespace.Graphics.DrawImage(Resources.fond, 0, 0, Config.GAMESPACE_WIDTH, Config.GAMESPACE_WIDTH / 2);
+                }
+                else
+                {
+                    gamespace.Graphics.DrawImage(Resources.fond, 0, 0, Config.GAMESPACE_HEIGHT * 2, Config.GAMESPACE_HEIGHT);
+                }
 
-            // Affichage des obstacles
-            foreach (Obstacle obstacle in _obstacles)
-            {
-                obstacle.Render(gamespace);
-            }
 
-            // Affichage des ennemis
-            foreach (Ennemi ennemi in _ennemis)
-            {
-                ennemi.Render(gamespace);
+                // Affichage du joueur
+                _player.Render(gamespace);
+
+                // Affichage des projectiles amis
+                foreach (Gouvernail gouvernail in _gouvernails)
+                {
+                    gouvernail.Render(gamespace);
+                }
+
+                // Affichage des projectiles ennemis
+                foreach (Balle balle in _balles)
+                {
+                    balle.Render(gamespace);
+                }
+
+                // Affichage des obstacles
+                foreach (Obstacle obstacle in _obstacles)
+                {
+                    obstacle.Render(gamespace);
+                }
+
+                // Affichage des ennemis
+                foreach (Ennemi ennemi in _ennemis)
+                {
+                    ennemi.Render(gamespace);
+                }
             }
+            else
+            {
+                // Réinitialisation (visuelle) de l'environnement Gamespace
+                gamespace.Graphics.Clear(Color.IndianRed);
+                gamespace.Graphics.DrawString("Vous êtes mort-e, dommage.", TextHelpers.HpFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 200);
+                gamespace.Graphics.DrawString($"SCORE : {_player._score}", TextHelpers.HpFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 150), 300);
+            }
+                
             gamespace.Render();
         }
 
@@ -100,6 +123,10 @@ namespace ShootMeUp
             {
                 // Update du joueur
                 _player.Update(interval, _mouse, ref _gouvernails);
+                if (_player.Hp == 0)
+                {
+                    isPaused = true;
+                }
 
                 // Update des projectiles amis
                 foreach (Gouvernail gouvernail in _gouvernails)
