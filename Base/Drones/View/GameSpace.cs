@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic.Devices;
 using ShootMeUp.Helpers;
 using ShootMeUp.Model;
 using ShootMeUp.Properties;
@@ -109,8 +110,10 @@ namespace ShootMeUp
             {
                 // Réinitialisation (visuelle) de l'environnement Gamespace
                 gamespace.Graphics.Clear(Color.IndianRed);
-                gamespace.Graphics.DrawString("Vous êtes mort-e, dommage.", TextHelpers.HpFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 200);
-                gamespace.Graphics.DrawString($"SCORE : {_player._score}", TextHelpers.HpFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 150), 300);
+                gamespace.Graphics.DrawString($"Vous êtes mort-e, dommage.  SCORE : {_player._score}", TextHelpers.mediumFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 350), 200);                                
+                gamespace.Graphics.FillRectangle(TextHelpers.lightBlueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
+                gamespace.Graphics.DrawRectangle(Pens.Black, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
+                gamespace.Graphics.DrawString("Rejouer", TextHelpers.mediumFont, TextHelpers.blackBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 120), 420);
             }
                 
             gamespace.Render();
@@ -166,6 +169,44 @@ namespace ShootMeUp
                 ManageHits(ref _gouvernails, ref _balles, _player, _obstacles, _ennemis);
 
             }
+            else
+            {
+                // Si le jeu est en pause, on vérifie si le joueur a cliqué sur le bouton "Rejouer"
+                if (_mouse != null  
+                    && Convert.ToString(_mouse.Button) == "Left" 
+                    && MathHelpers.IsTouching(_mouse.X, _mouse.Y, 1, 1, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80))
+                {
+                    // Je supprime le joueur et je le recrée pour réinitialiser sa vie et son score
+                    _player = null;
+                    _player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
+
+                    // Suppression des projectiles ennemis
+                    _balles.Clear();
+
+                    // Réinitialisation des obstacles
+                    foreach (Obstacle obstacle in _obstacles)
+                    {
+                        obstacle.Hp = Config.OBSTACLE_HP;
+                    }
+
+                    // Suppression des projectiles amis
+                    _gouvernails.Clear();
+
+                    // Suppression des ennemis
+                    _ennemis.Clear();
+
+                    // Je les remet
+                    for (int i = 0; i < 10; i++)
+                    {
+                        _ennemis.Add(new Ennemi());
+                    }
+                    // Je laisse le jeu se update un tick pour pas avoir de 
+                    this.Update(ticker.Interval);
+                    // Je remet le jeu en marche
+                    isPaused = false;
+                }
+
+            }            
 
             // Vide les inputs de la souris
             _mouse = null;

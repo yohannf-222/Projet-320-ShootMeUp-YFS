@@ -19,7 +19,7 @@ namespace ShootMeUp.Model
         public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;   // Dimension d'un obstacle, largeur
         public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;  // Dimension d'un obstacle, hauteur
 
-        private double Hp
+        public double Hp
         {
             get => _hp;
             set

@@ -128,8 +128,8 @@ namespace ShootMeUp.Model
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);
-            drawingSpace.Graphics.DrawString($"HP : {Hp}/{Config.PLAYER_HP}", TextHelpers.HpFont, TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 280), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
-            drawingSpace.Graphics.DrawString($"SCORE : {_score}", TextHelpers.HpFont, TextHelpers.blueBrush, 100, Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
+            drawingSpace.Graphics.DrawString($"HP : {Hp}/{Config.PLAYER_HP}", TextHelpers.tallFont, TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 280), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
+            drawingSpace.Graphics.DrawString($"SCORE : {_score}", TextHelpers.tallFont, TextHelpers.blueBrush, 100, Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
         }
         #endregion
     }
