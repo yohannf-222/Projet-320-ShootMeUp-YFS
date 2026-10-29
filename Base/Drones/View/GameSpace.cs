@@ -177,7 +177,6 @@ namespace ShootMeUp
                     && MathHelpers.IsTouching(_mouse.X, _mouse.Y, 1, 1, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80))
                 {
                     // Je supprime le joueur et je le recrée pour réinitialiser sa vie et son score
-                    _player = null;
                     _player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
 
                     // Suppression des projectiles ennemis
@@ -200,7 +199,7 @@ namespace ShootMeUp
                     {
                         _ennemis.Add(new Ennemi());
                     }
-                    // Je laisse le jeu se update un tick pour pas avoir de 
+                    // Je laisse le jeu se update un tick
                     this.Update(ticker.Interval);
                     // Je remet le jeu en marche
                     isPaused = false;
