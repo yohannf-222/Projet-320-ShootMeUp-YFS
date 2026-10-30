@@ -20,7 +20,7 @@ namespace ShootMeUp.Model
         public static readonly int width = 14 * Config.PIXEL_SIZE_MULTIPLYER;   // Largeur de l'ennemi
         public static readonly int height = 30 * Config.PIXEL_SIZE_MULTIPLYER;  // Hauteur de l'ennemi
         public int counter = RndValueHelpers.Next(0, 40);
-        private Location _objectif;
+        public Location _objectif;
         private static int count = 0;
         private int _id;
 
@@ -36,7 +36,7 @@ namespace ShootMeUp.Model
         private static List<int> axesY = new List<int> { Config.GAMESPACE_HEIGHT / 7 * 1, Config.GAMESPACE_HEIGHT / 7 * 2, Config.GAMESPACE_HEIGHT / 7 * 3 };
 
         // Points entre lesquels les ennemis se déplacent
-        private static Location[,] objectifs = MathHelpers.DefineIntersections(axesX, axesY);
+        public static Location[,] objectifs = MathHelpers.DefineIntersections(axesX, axesY);
 
         // Endroit où les ennemis peuvent apparaitre, en dehors de l'écran
         private static List<Location> spawners = DefineSpawners();

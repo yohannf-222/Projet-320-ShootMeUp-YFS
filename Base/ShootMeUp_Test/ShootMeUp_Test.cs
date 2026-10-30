@@ -1,4 +1,5 @@
-﻿using ShootMeUp;
+﻿using ShootMeUp.Model;
+using ShootMeUp;
 using ShootMeUp.Helpers;
 
 namespace ShootMeUp
@@ -214,6 +215,52 @@ namespace ShootMeUp
 
             // Assert
             Assert.AreEqual(5, result);
+        }
+
+        [TestMethod]
+        public void GetHit_DoesDamageToObstacle()
+        {
+            // Arrange
+            int damage = 10;
+            Obstacle obstacle = new Obstacle(0, 0);
+
+            // Act
+            obstacle.GetHit(damage);
+
+            // Assert
+            Assert.AreEqual(obstacle.Hp, Obstacle.TOT_HP - 10);
+        }
+
+        [TestMethod]
+        public void Gouvernail_Moves()
+        {
+            // Arrange
+            Gouvernail gouvernail = new Gouvernail(0, 0, 10, 10);
+
+            // Act
+            gouvernail.Update();
+
+            // Assert
+            Assert.IsTrue(gouvernail.X != 0 && gouvernail.Y != 0);
+        }
+
+        [TestMethod]
+        public void Ennemi_ChooseObjective_GivesAGoodValue()
+        {
+            // Arrange
+            Ennemi ennemi = new Ennemi();
+            bool isInArray = false;
+
+            // Act            
+            // Dejà dans le constructeur
+
+            // Assert
+            foreach (Location objectif in Ennemi.objectifs)
+            {
+                if (ennemi._objectif == objectif)
+                    isInArray = true;
+            }            
+            Assert.IsTrue(isInArray);
         }
     }
 }
