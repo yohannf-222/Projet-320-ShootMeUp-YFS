@@ -3,8 +3,7 @@
     // Outils pour écrire du texte dans un environnement graphique
     internal static class TextHelpers
     {
-        public static Font drawFont = new Font("Arial", 10);
-        public static SolidBrush writingBrush = new SolidBrush(Color.Black);
+        public static Font drawFont = new Font("Arial", 10);        
 
         // Police utilisée pour afficher des textes en assez grands.
         public static Font tallFont = new Font(TextHelpers.drawFont.FontFamily, 24);        
@@ -13,5 +12,6 @@
         public static Brush blueBrush = new SolidBrush(Color.Blue);
         public static Brush blackBrush = new SolidBrush(Color.Black);
         public static Brush lightBlueBrush = new SolidBrush(Color.LightBlue);
+        public static Pen whitePen = new Pen(Color.White, 3);
     }
 }

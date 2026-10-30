@@ -127,9 +127,10 @@ namespace ShootMeUp.Model
         // Afficher le joueur
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);
-            drawingSpace.Graphics.DrawString($"HP : {Hp}/{Config.PLAYER_HP}", TextHelpers.tallFont, TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 280), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
-            drawingSpace.Graphics.DrawString($"SCORE : {_score}", TextHelpers.tallFont, TextHelpers.blueBrush, 100, Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
+            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);            
+            drawingSpace.Graphics.DrawString($"SCORE : {_score}", TextHelpers.mediumFont, TextHelpers.blueBrush, 100, Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
+            drawingSpace.Graphics.FillRectangle(TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), Convert.ToSingle(300 * Hp / Config.PLAYER_HP), 40);
+            drawingSpace.Graphics.DrawRectangle(TextHelpers.whitePen, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), 300, 40);            
         }
         #endregion
     }
