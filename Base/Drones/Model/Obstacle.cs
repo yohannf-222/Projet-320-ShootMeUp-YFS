@@ -23,15 +23,7 @@ namespace ShootMeUp.Model
         public double Hp
         {
             get => _hp;
-            set
-            {
-                if (Hp > TOT_HP)
-                    _hp = TOT_HP;
-                else if (Hp < 0)
-                    _hp = 0;
-                else
-                    _hp = value;
-            }
+            set => _hp = Math.Clamp(value, 0, TOT_HP);
         }
         public int State
         {

@@ -12,51 +12,35 @@ namespace ShootMeUp.Model
     public class Player
     {
 
-        private double _x;                                      // Position en X depuis la gauche de l'espace
-        private double _y;                                      // Position en Y depuis le haut de l'espace
-        public int _score;                                     // Score du joueur
+        private double _x;                                          // Position en X depuis la gauche de l'espace
+        private double _y;                                          // Position en Y depuis le haut de l'espace
+        public int _score;                                          // Score du joueur
 
         private static readonly int WIDTH = 26 * Config.PIXEL_SIZE_MULTIPLYER;          // Dimension du joueur, largeur
         private static readonly int HEIGHT = 43 * Config.PIXEL_SIZE_MULTIPLYER;         // Dimension du joueur, hauteur
 
-        private State _state;                                   // l'état dans lequel le joueur est
-        private int speedMultiplyer = 1;                        // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
-        private int _cooldown = Gouvernail.COOLDOWN;     // Compteur de ticks depuis le dernier tir de gouvernail
+        private State _state;                                       // l'état dans lequel le joueur est
+        private int speedMultiplyer = 1;                            // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
+        private int _cooldown = Gouvernail.COOLDOWN;                // Compteur de ticks depuis le dernier tir de gouvernail
 
-        public enum State { ALIVE, DEAD, STOPPED };             // les états possibles dans lequel le joueur peut être
+        public enum State { ALIVE, DEAD, STOPPED };                 // les états possibles dans lequel le joueur peut être
 
-        private int _hp = Config.PLAYER_HP;
+        public static readonly int SPEED = 10;                      // Vitesse du joueur, en px par frame
+        public static readonly int TOT_HP = 100;                    // Dégats que le joueur peut encaisser avant de mourir.     
+
+        private int _hp = TOT_HP;
 
         public double X
         {
             get => _x;
             // Empêcher le joueur de sortir du jeu
-            set
-            {
-                if (value > Config.GAMESPACE_WIDTH - WIDTH)
-                    _x = Config.GAMESPACE_WIDTH - WIDTH;
-                else if (value < 0)
-                    _x = 0;
-                else
-                    _x = value;
-            }
+            set => Math.Clamp(value, 0, Config.GAMESPACE_WIDTH);
         }
         public double Y { get => _y; set => _y = value; }
         public int Hp
         {
             get => _hp;
-            set
-            {
-                if (value > Config.PLAYER_HP)
-                    _hp = Config.PLAYER_HP;
-                else if (value <= 0)
-                {
-                    _state = State.DEAD;
-                    _hp = value;
-                }                    
-                else
-                    _hp = value;
-            }
+            set => _hp = Math.Clamp(value, 0, TOT_HP);
         }
 
         // Constructeur
@@ -87,7 +71,7 @@ namespace ShootMeUp.Model
             #region ============= Mouvements ===========
 
             // Facteur d'accélération du joueur lorsqu'il avance en ligne droite
-            double speed = Config.SPEED * speedMultiplyer;
+            double speed = SPEED * speedMultiplyer;
 
             // Bouger à droite ou gauche selon les touches pressées
             if (GameSpace.keysPressed.Contains('D'))
@@ -129,7 +113,7 @@ namespace ShootMeUp.Model
         {
             drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);            
             drawingSpace.Graphics.DrawString($"SCORE : {_score}", TextHelpers.mediumFont, TextHelpers.blueBrush, 100, Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
-            drawingSpace.Graphics.FillRectangle(TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), Convert.ToSingle(300 * Hp / Config.PLAYER_HP), 40);
+            drawingSpace.Graphics.FillRectangle(TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), Convert.ToSingle(300 * Hp / TOT_HP), 40);
             drawingSpace.Graphics.DrawRectangle(TextHelpers.whitePen, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), 300, 40);            
         }
         #endregion

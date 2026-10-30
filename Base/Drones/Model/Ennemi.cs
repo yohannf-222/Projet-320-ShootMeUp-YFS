@@ -44,7 +44,7 @@ namespace ShootMeUp.Model
         public double Hp
         {
             get => _hp;
-            set => _hp = value;
+            set => _hp = Math.Clamp(value, 0, TOT_HP);
         }
 
         public Location Position
