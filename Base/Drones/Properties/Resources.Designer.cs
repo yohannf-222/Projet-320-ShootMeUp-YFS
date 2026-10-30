@@ -63,9 +63,9 @@ namespace ShootMeUp.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap drone {
+        public static System.Drawing.Bitmap Balle {
             get {
-                object obj = ResourceManager.GetObject("drone", resourceCulture);
+                object obj = ResourceManager.GetObject("Balle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
