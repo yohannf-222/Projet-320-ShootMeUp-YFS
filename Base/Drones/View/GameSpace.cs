@@ -227,6 +227,7 @@ namespace ShootMeUp
         /// <param name="obstacles">liste des obstacles</param>
         private void ManageHits(ref List<Gouvernail> gouvernails, ref List<Balle> balles, Player player, List<Obstacle> obstacles, List<Ennemi> ennemis)
         {
+            // Collisions entre les projectiles amis et les obstacles
             for (int i = obstacles.Count - 1; i >= 0; i--)
             {
                 for (int j = gouvernails.Count - 1; j >= 0; j--)
@@ -241,6 +242,7 @@ namespace ShootMeUp
                 }
             }
 
+            // Collisions entre les projectiles amis et les ennemis (score et réinstanciation également)
             for (int i = ennemis.Count - 1; i >= 0; i--)
             {
                 for (int j = gouvernails.Count - 1; j >= 0; j--)
@@ -261,6 +263,7 @@ namespace ShootMeUp
                 }
             }
 
+            // Suppression des projectiles amis qui sortent du terrain
             for (int i = gouvernails.Count - 1; i >= 0; i--)
             {
                 if (gouvernails[i].X > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || gouvernails[i].X < -(Config.OBJECT_DELETION_MARGIN)
@@ -270,6 +273,7 @@ namespace ShootMeUp
                 }
             }
 
+            // Collisions entre les projectiles ennemis et les obstacles
             for (int i = obstacles.Count - 1; i >= 0; i--)
             {
                 for (int j = balles.Count - 1; j >= 0; j--)
@@ -284,6 +288,7 @@ namespace ShootMeUp
                 }
             }
 
+            // Collisions entre les projectiles ennemis et le joueur
             for (int j = balles.Count - 1; j >= 0; j--)
             {
                 if (MathHelpers.IsTouching(player.X, player.Y, Ennemi.width, Ennemi.height, balles[j].X, balles[j].Y, Balle.width * Config.PIXEL_SIZE_MULTIPLYER, Balle.height * Config.PIXEL_SIZE_MULTIPLYER))
@@ -295,6 +300,7 @@ namespace ShootMeUp
 
             }
 
+            // Suppression des projectiles ennemis qui sortent du terrain
             for (int i = balles.Count - 1; i >= 0; i--)
             {
                 if (balles[i].X > Config.GAMESPACE_WIDTH + Config.OBJECT_DELETION_MARGIN || balles[i].X < -(Config.OBJECT_DELETION_MARGIN)
