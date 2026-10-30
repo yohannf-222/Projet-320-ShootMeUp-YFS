@@ -29,7 +29,7 @@ namespace ShootMeUp.Model
         #region ================ Modelisation des projectiles ennemis et de son comportement ================
         public void Update()
         {
-            Y += Config.ENNEMI_BULLET_SPEED;
+            Y += Ennemi.BULLET_SPEED;
         }
         #endregion
 

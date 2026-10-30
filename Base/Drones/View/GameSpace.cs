@@ -108,7 +108,7 @@ namespace ShootMeUp
             }
             else
             {
-                // Réinitialisation (visuelle) de l'environnement Gamespace
+                // Affichage du menu de mort, fond rouge, message de mort, score de la partie, bouton rejouer
                 gamespace.Graphics.Clear(Color.IndianRed);
                 gamespace.Graphics.DrawString($"Vous êtes mort-e, dommage.  SCORE : {_player._score}", TextHelpers.mediumFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 350), 200);                                
                 gamespace.Graphics.FillRectangle(TextHelpers.lightBlueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
@@ -172,7 +172,7 @@ namespace ShootMeUp
             else
             {
                 // Si le jeu est en pause, on vérifie si le joueur a cliqué sur le bouton "Rejouer"
-                if (_mouse != null  
+                if (_mouse != null
                     && Convert.ToString(_mouse.Button) == "Left" 
                     && MathHelpers.IsTouching(_mouse.X, _mouse.Y, 1, 1, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80))
                 {
@@ -182,10 +182,10 @@ namespace ShootMeUp
                     // Suppression des projectiles ennemis
                     _balles.Clear();
 
-                    // Réinitialisation des obstacles
+                    // Réinitialisation des obstacles (pas besoin de les réinstancier)
                     foreach (Obstacle obstacle in _obstacles)
                     {
-                        obstacle.Hp = Config.OBSTACLE_HP;
+                        obstacle.Hp = Obstacle.TOT_HP;
                     }
 
                     // Suppression des projectiles amis
@@ -232,11 +232,11 @@ namespace ShootMeUp
             {
                 for (int j = gouvernails.Count - 1; j >= 0; j--)
                 {
-                    if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, gouvernails[j].X, gouvernails[j].Y, Config.GOUVERNAIL_RADIUS)
+                    if (MathHelpers.IsTouching(obstacles[i].X, obstacles[i].Y, Obstacle.width, Obstacle.height, gouvernails[j].X, gouvernails[j].Y, Gouvernail.RADIUS)
                         && obstacles[i].State > 0)
                     {
                         gouvernails.RemoveAt(j);
-                        obstacles[i].GetHit(Config.GOUVERNAIL_DAMAGE);
+                        obstacles[i].GetHit(Gouvernail.DAMAGE);
                         return;
                     }
                 }
@@ -247,10 +247,10 @@ namespace ShootMeUp
             {
                 for (int j = gouvernails.Count - 1; j >= 0; j--)
                 {
-                    if (MathHelpers.IsTouching(ennemis[i].Position.X, ennemis[i].Position.Y, Ennemi.width, Ennemi.height, gouvernails[j].X, gouvernails[j].Y, Config.GOUVERNAIL_RADIUS))
+                    if (MathHelpers.IsTouching(ennemis[i].Position.X, ennemis[i].Position.Y, Ennemi.width, Ennemi.height, gouvernails[j].X, gouvernails[j].Y, Gouvernail.RADIUS))
                     {
                         gouvernails.RemoveAt(j);
-                        ennemis[i].Hp -= Config.GOUVERNAIL_DAMAGE;
+                        ennemis[i].Hp -= Gouvernail.DAMAGE;
                         if (ennemis[i].Hp < 0)
                         {
                             ennemis.RemoveAt(i);
@@ -282,7 +282,7 @@ namespace ShootMeUp
                         && obstacles[i].State > 0)
                     {
                         balles.RemoveAt(j);
-                        obstacles[i].GetHit(Config.ENNEMI_DAMAGE);
+                        obstacles[i].GetHit(Ennemi.DAMAGE);
                         return;
                     }
                 }
@@ -294,7 +294,7 @@ namespace ShootMeUp
                 if (MathHelpers.IsTouching(player.X, player.Y, Ennemi.width, Ennemi.height, balles[j].X, balles[j].Y, Balle.width * Config.PIXEL_SIZE_MULTIPLYER, Balle.height * Config.PIXEL_SIZE_MULTIPLYER))
                 {
                     balles.RemoveAt(j);
-                    player.Hp -= Config.ENNEMI_DAMAGE;
+                    player.Hp -= Ennemi.DAMAGE;
                     return;
                 }
 
