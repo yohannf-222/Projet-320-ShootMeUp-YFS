@@ -11,21 +11,22 @@ namespace ShootMeUp.Model
 {
     public class Obstacle
     {
-        static int totHp = Config.OBSTACLE_HP;      // Nombre de Hp maximum d'un obstacle
-        private double _x;                          // Position en X depuis la gauche de l'espace 
-        private double _y;                          // Position en Y depuis le haut de l'espace 
-        private double _hp;                         // Les points de vie d'un objet obstacle
-        private int _state;                         // Les 4 états de l'obstacle correspondent à un quart des Hp totaux et changent également son apparence
+        private double _x;                                  // Position en X depuis la gauche de l'espace 
+        private double _y;                                  // Position en Y depuis le haut de l'espace 
+        private double _hp;                                 // Les points de vie d'un objet obstacle
+        private int _state;                                 // Les 4 états de l'obstacle correspondent à un quart des Hp totaux et changent également son apparence
         public static readonly int width = 37 * Config.PIXEL_SIZE_MULTIPLYER;   // Dimension d'un obstacle, largeur
         public static readonly int height = 38 * Config.PIXEL_SIZE_MULTIPLYER;  // Dimension d'un obstacle, hauteur
+
+        public static readonly int TOT_HP = 250;         // Dégats que l'obstacle peut encaisser avant de disparaitre temporairement.
 
         public double Hp
         {
             get => _hp;
             set
             {
-                if (Hp > Config.OBSTACLE_HP)
-                    _hp = Config.OBSTACLE_HP;
+                if (Hp > TOT_HP)
+                    _hp = TOT_HP;
                 else if (Hp < 0)
                     _hp = 0;
                 else
@@ -51,16 +52,16 @@ namespace ShootMeUp.Model
         {
             this.X = x;
             this.Y = y;
-            this._hp = Config.OBSTACLE_HP;
+            this._hp = TOT_HP;
         }
         #region ================ Modelisation de l'obstacle et de son comportement ================
         public void Update(int interval)
         {
             // Chaque changement de Hp peut changer l'état, chaque quart de totHp = plus 1 dans state
-            State = Convert.ToInt16(Math.Round((double)Hp * 4 / totHp));
+            State = Convert.ToInt16(Math.Round((double)Hp * 4 / TOT_HP));
 
             //Régénération des obstacles dans le temps
-            if (Hp < Config.OBSTACLE_HP)
+            if (Hp < TOT_HP)
                 Hp += 0.5;
         }
 

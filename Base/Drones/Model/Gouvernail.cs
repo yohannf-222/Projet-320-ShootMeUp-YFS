@@ -6,10 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShootMeUp.Model
+namespace ShootMeUp
 {
     public class Gouvernail
     {
+
+        static int SPEED = 50;        // Vitesse des projectiles amis, en px par frame
+        public static readonly int COOLDOWN = 10;     // Interval minimum entre les tirs, en nombre de ticks
+        public static readonly int DAMAGE = 90;       // Dégats engendrés par un impact de gouvernail
+        public static readonly int RADIUS = 42;       // Rayon d'un gouvernail, pour que la zone de collision soit ronde
+
+
         private double _x;                              // Position en X depuis la gauche de l'espace 
         private double _y;                              // Position en Y depuis le haut de l'espace
         private double _xIncrement;
@@ -34,8 +41,8 @@ namespace ShootMeUp.Model
             double deltaX = targetX - X;
             double deltaY = targetY - Y;
             double distance = MathHelpers.CalculateDistance(X, Y, targetX, targetY);
-            this._xIncrement = deltaX / distance * Config.GOUVERNAIL_SPEED;
-            this._yIncrement = deltaY / distance * Config.GOUVERNAIL_SPEED;
+            this._xIncrement = deltaX / distance * SPEED;
+            this._yIncrement = deltaY / distance * SPEED;
         }
 
         #region ================ Modelisation du gouvernail et de son comportement ================
@@ -52,7 +59,7 @@ namespace ShootMeUp.Model
         // Afficher le gouvernail, centré sur sa position X/Y
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - Config.GOUVERNAIL_RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, radius * Config.PIXEL_SIZE_MULTIPLYER, radius * Config.PIXEL_SIZE_MULTIPLYER);
+            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, radius * Config.PIXEL_SIZE_MULTIPLYER, radius * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }

@@ -196,13 +196,13 @@ namespace ShootMeUp
 
                     // Je les remet
                     for (int i = 0; i < 10; i++)
-                    {
-                        _ennemis.Add(new Ennemi());
-                    }
-                    // Je laisse le jeu se update un tick
-                    this.Update(ticker.Interval);
+                        _ennemis.Add(new Ennemi());                  
+
                     // Je remet le jeu en marche
                     isPaused = false;
+
+                    // Je laisse le jeu se update un tick
+                    this.Update(ticker.Interval);
                 }
 
             }            

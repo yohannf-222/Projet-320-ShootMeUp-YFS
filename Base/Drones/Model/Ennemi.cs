@@ -14,16 +14,19 @@ namespace ShootMeUp.Model
 {
     public class Ennemi
     {
-        static int totHp = Config.ENNEMI_HP;                                    // Points de vie
         private Location _position = new Location();                            // Position de l'ennemi
         private double _hp;
         public static readonly int width = 14 * Config.PIXEL_SIZE_MULTIPLYER;   // Largeur de l'ennemi
         public static readonly int height = 30 * Config.PIXEL_SIZE_MULTIPLYER;  // Hauteur de l'ennemi
         public int counter = RndValueHelpers.Next(0, 40);
         private Location _objectif;
-        private static int speed = Config.ENNEMI_SPEED;
         private static int count = 0;
         private int _id;
+
+        public static readonly int TOT_HP = 1;                // Dégats que l'ennemi peut encaisser avant d'être éliminé.
+        public static readonly int SPEED = 10;            // Vitesse des ennemis en px par frame
+        public static readonly int BULLET_SPEED = 50;     // Vitesse des projectiles ennemis en px par frame
+        public static readonly int DAMAGE = 50;           // Dégats infligés par un projectile ennemi
 
         // Axes sur lesquels les ennemis peuvent se déplacer
         // axesX : positions X possibles (droites verticales)
@@ -68,7 +71,7 @@ namespace ShootMeUp.Model
         {
             //apparition aléatoire dans l'un des spawners
             this._position = spawners[RndValueHelpers.Next(0, spawners.Count)];
-            this._hp = Config.ENNEMI_HP;
+            this._hp = TOT_HP;
             this._objectif = ChooseObjective();
             count++;
             this._id = count;
@@ -78,16 +81,16 @@ namespace ShootMeUp.Model
         #region ================ Modelisation de l'ennemi et de son comportement ================
         public void Update(int interval)
         {
-            if (_objectif == null || MathHelpers.CalculateDistance(Position.X, Position.Y, _objectif.X, _objectif.Y) <= speed)
+            if (_objectif == null || MathHelpers.CalculateDistance(Position.X, Position.Y, _objectif.X, _objectif.Y) <= SPEED)
                 _objectif = ChooseObjective();
 
             // Si on est assez proche de l'objectif, on arrondis X et Y pour être dessus
-            if (Math.Abs(Position.X - _objectif.X) <= speed)
+            if (Math.Abs(Position.X - _objectif.X) <= SPEED)
             {
                 Position.X = _objectif.X;
             }
 
-            if (Math.Abs(Position.Y - _objectif.Y) <= speed)
+            if (Math.Abs(Position.Y - _objectif.Y) <= SPEED)
             {
                 Position.Y = _objectif.Y;
             }
@@ -95,16 +98,16 @@ namespace ShootMeUp.Model
             if (_objectif.X != Position.X)
             {
                 if (_objectif.X > Position.X)
-                    Position.X += speed;
+                    Position.X += SPEED;
                 else if (_objectif.X < Position.X)
-                    Position.X -= speed;
+                    Position.X -= SPEED;
             }
             else if (_objectif.Y != Position.Y)
             {
                 if (_objectif.Y > Position.Y)
-                    Position.Y += speed;
+                    Position.Y += SPEED;
                 else if (_objectif.Y < Position.Y)
-                    Position.Y -= speed;
+                    Position.Y -= SPEED;
             }
 
         }

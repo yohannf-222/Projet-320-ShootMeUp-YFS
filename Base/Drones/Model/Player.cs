@@ -21,7 +21,7 @@ namespace ShootMeUp.Model
 
         private State _state;                                   // l'état dans lequel le joueur est
         private int speedMultiplyer = 1;                        // Augmente la vitesse continuellement lorsque le joueur maintient le mouvement
-        private int _cooldown = Config.GOUVERNAIL_COOLDOWN;     // Compteur de ticks depuis le dernier tir de gouvernail
+        private int _cooldown = Gouvernail.COOLDOWN;     // Compteur de ticks depuis le dernier tir de gouvernail
 
         public enum State { ALIVE, DEAD, STOPPED };             // les états possibles dans lequel le joueur peut être
 
@@ -77,7 +77,7 @@ namespace ShootMeUp.Model
             _score++;
 
             // Au clic gauche, instancier un gouvernail au milieu du personnage
-            if (mouse != null && _cooldown >= Config.GOUVERNAIL_COOLDOWN && Convert.ToString(mouse.Button) == "Left")
+            if (mouse != null && _cooldown >= Gouvernail.COOLDOWN && Convert.ToString(mouse.Button) == "Left")
             {
                 gouvernails.Add(new Gouvernail(X + WIDTH / 2, Y + WIDTH / 2, mouse.X, mouse.Y));
                 _cooldown = 0;
