@@ -24,10 +24,10 @@ namespace ShootMeUp.Model
         private static int count = 0;
         private int _id;
 
-        public static readonly int TOT_HP = 1;                // Dégats que l'ennemi peut encaisser avant d'être éliminé.
-        public static readonly int SPEED = 10;            // Vitesse des ennemis en px par frame
-        public static readonly int BULLET_SPEED = 50;     // Vitesse des projectiles ennemis en px par frame
-        public static readonly int DAMAGE = 50;           // Dégats infligés par un projectile ennemi
+        public static readonly int TOT_HP = 1;              // Dégats que l'ennemi peut encaisser avant d'être éliminé.
+        public static readonly int SPEED = 10;              // Vitesse des ennemis en px par frame
+        public static readonly int BULLET_SPEED = 50;       // Vitesse des projectiles ennemis en px par frame
+        public static readonly int DAMAGE = 50;             // Dégats infligés par un projectile ennemi
 
         // Axes sur lesquels les ennemis peuvent se déplacer
         // axesX : positions X possibles (droites verticales)

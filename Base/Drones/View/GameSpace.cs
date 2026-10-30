@@ -44,7 +44,7 @@ namespace ShootMeUp
         BufferedGraphics gamespace;
 
         // Initialisation de l'espace du jeu avec le joueur
-        public GameSpace(Player player, List<Gouvernail> gouvernails, List<Balle> balles, List<Obstacle> obstacles, List<Ennemi> ennemis)
+        public GameSpace(Player player, List<Obstacle> obstacles, List<Ennemi> ennemis)
         {
             InitializeComponent();
             ClientSize = new Size(WIDTH, HEIGHT);
@@ -58,8 +58,6 @@ namespace ShootMeUp
 
             // Ajoute les entités du jeu qui sont reçues en paramêtre dans les attributs de Gamespace
             this._player = player;
-            this._gouvernails = gouvernails;
-            this._balles = balles;
             this._obstacles = obstacles;
             this._ennemis = ennemis;
         }
@@ -244,7 +242,7 @@ namespace ShootMeUp
         /// <param name="balles">Liste des projectiles ennemis, modifiée directement</param>
         /// <param name="player">Objet joueur</param>
         /// <param name="obstacles">liste des obstacles</param>
-        private void ManageHits(ref List<Gouvernail> gouvernails, ref List<Balle> balles, Player player, List<Obstacle> obstacles, List<Ennemi> ennemis)
+        public void ManageHits(ref List<Gouvernail> gouvernails, ref List<Balle> balles, Player player, List<Obstacle> obstacles, List<Ennemi> ennemis)
         {
             // Collisions entre les projectiles amis et les obstacles
             for (int i = obstacles.Count - 1; i >= 0; i--)
@@ -270,7 +268,7 @@ namespace ShootMeUp
                     {
                         gouvernails.RemoveAt(j);
                         ennemis[i].Hp -= Gouvernail.DAMAGE;
-                        if (ennemis[i].Hp < 0)
+                        if (ennemis[i].Hp <= 0)
                         {
                             ennemis.RemoveAt(i);
                             ennemis.Add(new Ennemi());

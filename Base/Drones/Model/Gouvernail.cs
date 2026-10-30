@@ -13,7 +13,7 @@ namespace ShootMeUp
 
         static int SPEED = 50;                        // Vitesse des projectiles amis, en px par frame
         public static readonly int COOLDOWN = 10;     // Interval minimum entre les tirs, en nombre de ticks
-        public static readonly int DAMAGE = 90;       // Dégats engendrés par un impact de gouvernail
+        public static readonly int DAMAGE = 100;       // Dégats engendrés par un impact de gouvernail
         public static readonly int RADIUS = 42;       // Rayon d'un gouvernail, pour que la zone de collision soit ronde
 
 

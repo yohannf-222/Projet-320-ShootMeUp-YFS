@@ -17,10 +17,6 @@ namespace ShootMeUp
 
             Player player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
 
-            List<Gouvernail> gouvernails = new List<Gouvernail>();
-           
-            List<Balle> balles = new List<Balle>();
-
             List<Obstacle> obstacles = Obstacle.GenerateObstacles(5);
 
             List<Ennemi> ennemis = new List<Ennemi>();
@@ -29,7 +25,7 @@ namespace ShootMeUp
                 ennemis.Add(new Ennemi());
             }
             // Démarrage
-            Application.Run(new GameSpace(player, gouvernails, balles, obstacles, ennemis));
+            Application.Run(new GameSpace(player, obstacles, ennemis));
         }
     }
 }

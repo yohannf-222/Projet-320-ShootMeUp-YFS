@@ -34,13 +34,20 @@ namespace ShootMeUp.Model
         {
             get => _x;
             // Empêcher le joueur de sortir du jeu
-            set => Math.Clamp(value, 0, Config.GAMESPACE_WIDTH);
+            set => _x = Math.Clamp(value, 0, Config.GAMESPACE_WIDTH);
         }
         public double Y { get => _y; set => _y = value; }
         public int Hp
         {
             get => _hp;
-            set => _hp = Math.Clamp(value, 0, TOT_HP);
+            set
+            {
+                // Vérifier la mort
+                if (value <= 0)
+                    _state = State.DEAD;
+                // Empecher les mauvaises valeurs Hp
+                _hp = Math.Clamp(value, 0, TOT_HP);
+            }
         }
 
         // Constructeur
@@ -111,10 +118,10 @@ namespace ShootMeUp.Model
         // Afficher le joueur
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);            
+            drawingSpace.Graphics.DrawImage(Resources.PirateClark, Convert.ToSingle(X), Convert.ToSingle(Y), WIDTH, HEIGHT);
             drawingSpace.Graphics.DrawString($"SCORE : {_score}", TextHelpers.mediumFont, TextHelpers.blueBrush, 100, Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70));
             drawingSpace.Graphics.FillRectangle(TextHelpers.redBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), Convert.ToSingle(300 * Hp / TOT_HP), 40);
-            drawingSpace.Graphics.DrawRectangle(TextHelpers.whitePen, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), 300, 40);            
+            drawingSpace.Graphics.DrawRectangle(TextHelpers.whitePen, Convert.ToSingle(Config.GAMESPACE_WIDTH - 360), Convert.ToSingle(Config.GAMESPACE_HEIGHT - 70), 300, 40);
         }
         #endregion
     }
