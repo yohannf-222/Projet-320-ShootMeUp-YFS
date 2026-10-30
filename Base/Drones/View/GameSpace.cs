@@ -13,6 +13,9 @@ namespace ShootMeUp
     // Il n'y a donc pas de notion d'altitude qui intervient
     public partial class GameSpace : Form
     {
+
+        public static List<int> oldScores = new List<int>();                // Liste contenant les scores des parties avant
+        private int bestScore;                                              // Dernier meilleur score
         public bool isPaused = false;                                       // Booléen qui indique si le jeu est en pause ou non
         public static List<char> keysPressed = new List<char>();            // Liste contenant les touches qui sont en train d'être pressées 
 
@@ -110,7 +113,20 @@ namespace ShootMeUp
             {
                 // Affichage du menu de mort, fond rouge, message de mort, score de la partie, bouton rejouer
                 gamespace.Graphics.Clear(Color.IndianRed);
-                gamespace.Graphics.DrawString($"Vous êtes mort-e, dommage.  SCORE : {_player._score}", TextHelpers.mediumFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 350), 200);                                
+                gamespace.Graphics.DrawString($"Vous êtes mort-e, dommage.  SCORE : {_player._score}", TextHelpers.mediumFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 350), 200);
+                if (_player._score > bestScore)
+                    bestScore = _player._score;
+
+                if (oldScores != null && _player._score > bestScore)
+                {
+                    for (int i = 0; i < oldScores.Count; i++)
+                    {
+                        bestScore = oldScores[0];
+                        if (oldScores[i] > bestScore)
+                            bestScore = oldScores[i];
+                    }
+                }
+                gamespace.Graphics.DrawString($"Le dermier meilleur score était de : {bestScore}", TextHelpers.mediumFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 330), 250);
                 gamespace.Graphics.FillRectangle(TextHelpers.lightBlueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
                 gamespace.Graphics.DrawRectangle(Pens.Black, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
                 gamespace.Graphics.DrawString("Rejouer", TextHelpers.mediumFont, TextHelpers.blackBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 120), 420);
@@ -176,6 +192,9 @@ namespace ShootMeUp
                     && Convert.ToString(_mouse.Button) == "Left" 
                     && MathHelpers.IsTouching(_mouse.X, _mouse.Y, 1, 1, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80))
                 {
+                    // Je garde les anciens scores
+                    oldScores.Add(_player._score);
+
                     // Je supprime le joueur et je le recrée pour réinitialiser sa vie et son score
                     _player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
 
