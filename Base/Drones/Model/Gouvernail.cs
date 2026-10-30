@@ -11,7 +11,7 @@ namespace ShootMeUp
     public class Gouvernail
     {
 
-        static int SPEED = 50;        // Vitesse des projectiles amis, en px par frame
+        static int SPEED = 50;                        // Vitesse des projectiles amis, en px par frame
         public static readonly int COOLDOWN = 10;     // Interval minimum entre les tirs, en nombre de ticks
         public static readonly int DAMAGE = 90;       // Dégats engendrés par un impact de gouvernail
         public static readonly int RADIUS = 42;       // Rayon d'un gouvernail, pour que la zone de collision soit ronde
@@ -23,7 +23,6 @@ namespace ShootMeUp
         private double _yIncrement;
         public double X { get => _x; set => _x = value; }
         public double Y { get => _y; set => _y = value; }
-        private static int radius = 42;
 
         /// <summary>
         /// Projectiles du joueur, part du joueur et continuent d'avancer dans la direction donnée (souris).
@@ -59,7 +58,7 @@ namespace ShootMeUp
         // Afficher le gouvernail, centré sur sa position X/Y
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, radius * Config.PIXEL_SIZE_MULTIPLYER, radius * Config.PIXEL_SIZE_MULTIPLYER);
+            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X) - RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, Convert.ToSingle(Y) - RADIUS * Config.PIXEL_SIZE_MULTIPLYER / 2, RADIUS * Config.PIXEL_SIZE_MULTIPLYER, RADIUS * Config.PIXEL_SIZE_MULTIPLYER);
         }
         #endregion
     }
