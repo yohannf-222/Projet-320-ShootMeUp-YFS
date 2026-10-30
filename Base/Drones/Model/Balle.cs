@@ -38,7 +38,7 @@ namespace ShootMeUp.Model
         // Afficher le projectile
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawImage(Resources.gouvernail, Convert.ToSingle(X), Convert.ToSingle(Y), width * Config.PIXEL_SIZE_MULTIPLYER, height * Config.PIXEL_SIZE_MULTIPLYER);
+            drawingSpace.Graphics.DrawImage(Resources.Balle, Convert.ToSingle(X), Convert.ToSingle(Y), width, height);
         }
         #endregion
     }
