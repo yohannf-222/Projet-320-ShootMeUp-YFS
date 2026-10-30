@@ -29,10 +29,10 @@ namespace ShootMeUp
         private Player _player;
 
         // Les projectiles amis
-        private List<Gouvernail> _gouvernails;
+        private List<Gouvernail> _gouvernails = new List<Gouvernail>();
 
         // Les projectiles ennemis
-        private List<Balle> _balles;
+        private List<Balle> _balles = new List<Balle>();
 
         //les obstacles
         private List<Obstacle> _obstacles;
@@ -64,13 +64,13 @@ namespace ShootMeUp
 
         // Affichage de la situation actuelle
         private void Render()
-        {            
+        {
             if (!isPaused)
             {
                 // Réinitialisation (visuelle) de l'environnement Gamespace
                 gamespace.Graphics.Clear(Color.AliceBlue);
 
-                if (Config.GAMESPACE_WIDTH / 2> Config.GAMESPACE_HEIGHT)
+                if (Config.GAMESPACE_WIDTH / 2 > Config.GAMESPACE_HEIGHT)
                 {
                     gamespace.Graphics.DrawImage(Resources.fond, 0, 0, Config.GAMESPACE_WIDTH, Config.GAMESPACE_WIDTH / 2);
                 }
@@ -129,7 +129,7 @@ namespace ShootMeUp
                 gamespace.Graphics.DrawRectangle(Pens.Black, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
                 gamespace.Graphics.DrawString("Rejouer", TextHelpers.mediumFont, TextHelpers.blackBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 120), 420);
             }
-                
+
             gamespace.Render();
         }
 
@@ -187,7 +187,7 @@ namespace ShootMeUp
             {
                 // Si le jeu est en pause, on vérifie si le joueur a cliqué sur le bouton "Rejouer"
                 if (_mouse != null
-                    && Convert.ToString(_mouse.Button) == "Left" 
+                    && Convert.ToString(_mouse.Button) == "Left"
                     && MathHelpers.IsTouching(_mouse.X, _mouse.Y, 1, 1, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80))
                 {
                     // Je garde les anciens scores
@@ -213,7 +213,7 @@ namespace ShootMeUp
 
                     // Je les remet
                     for (int i = 0; i < 10; i++)
-                        _ennemis.Add(new Ennemi());                  
+                        _ennemis.Add(new Ennemi());
 
                     // Je remet le jeu en marche
                     isPaused = false;
@@ -222,7 +222,7 @@ namespace ShootMeUp
                     this.Update(ticker.Interval);
                 }
 
-            }            
+            }
 
             // Vide les inputs de la souris
             _mouse = null;

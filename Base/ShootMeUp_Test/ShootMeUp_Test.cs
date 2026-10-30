@@ -218,7 +218,7 @@ namespace ShootMeUp
         }
 
         [TestMethod]
-        public void GetHit_DoesDamageToObstacle()
+        public void Ostacle_GetHitDoesDamage()
         {
             // Arrange
             int damage = 10;
@@ -259,7 +259,7 @@ namespace ShootMeUp
             {
                 if (ennemi._objectif == objectif)
                     isInArray = true;
-            }            
+            }
             Assert.IsTrue(isInArray);
         }
     }

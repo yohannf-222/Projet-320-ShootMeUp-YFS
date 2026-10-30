@@ -190,7 +190,7 @@ namespace ShootMeUp.Model
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.Ennemi, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y), width, height);
-            
+
         }
         #endregion
     }
