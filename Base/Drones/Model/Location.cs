@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShootMeUp.Helpers
+namespace ShootMeUp.Model
 {
     /// <summary>
     /// Un objet contenant des coordonées X et Y

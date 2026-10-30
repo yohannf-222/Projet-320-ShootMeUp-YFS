@@ -1,4 +1,5 @@
-﻿using ShootMeUp.Helpers;
+﻿using ShootMeUp.Model;
+using ShootMeUp.Helpers;
 using ShootMeUp.Properties;
 using System;
 using System.Collections.Generic;
