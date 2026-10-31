@@ -193,7 +193,7 @@ namespace ShootMeUp
                     // Je garde les anciens scores
                     oldScores.Add(_player._score);
 
-                    // Je supprime le joueur et je le recrée pour réinitialiser sa vie et son score
+                    // Je remplace le joueur pour réinitialiser sa vie et son score
                     _player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
 
                     // Suppression des projectiles ennemis
