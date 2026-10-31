@@ -1,5 +1,6 @@
 using ShootMeUp.Helpers;
 using ShootMeUp.Model;
+using System.Collections.Generic;
 
 namespace ShootMeUp
 {
@@ -14,18 +15,9 @@ namespace ShootMeUp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-
-            Player player = new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150);
-
-            List<Obstacle> obstacles = Obstacle.GenerateObstacles(5);
-
-            List<Ennemi> ennemis = new List<Ennemi>();
-            for (int i = 0; i < 10; i++)
-            {
-                ennemis.Add(new Ennemi());
-            }
+            
             // Démarrage
-            Application.Run(new GameSpace(player, obstacles, ennemis));
+            Application.Run(new GameSpace(new Player(Config.GAMESPACE_WIDTH / 2, Config.GAMESPACE_HEIGHT - 150), Obstacle.GenerateObstacles(5), new List<Ennemi>(new Ennemi[10])));
         }
     }
 }

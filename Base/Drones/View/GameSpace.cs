@@ -124,7 +124,7 @@ namespace ShootMeUp
                             bestScore = oldScores[i];
                     }
                 }
-                gamespace.Graphics.DrawString($"Le dermier meilleur score était de : {bestScore}", TextHelpers.mediumFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 330), 250);
+                gamespace.Graphics.DrawString($"Le dernier meilleur score était de : {bestScore}", TextHelpers.mediumFont, TextHelpers.blueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 330), 250);
                 gamespace.Graphics.FillRectangle(TextHelpers.lightBlueBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
                 gamespace.Graphics.DrawRectangle(Pens.Black, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 300), 400, 510, 80);
                 gamespace.Graphics.DrawString("Rejouer", TextHelpers.mediumFont, TextHelpers.blackBrush, Convert.ToSingle(Config.GAMESPACE_WIDTH / 2 - 120), 420);
