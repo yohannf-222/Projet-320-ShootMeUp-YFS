@@ -184,6 +184,14 @@ namespace ShootMeUp.Model
                 return new Location(Convert.ToInt16(Math.Round(value.X)), closestY);
         }
 
+        public static List<Ennemi> GenerateEnnemies(int nb)
+        {
+            List<Ennemi> ennemis = new List<Ennemi>();
+            for (int i = 0; i < nb; i++)
+                ennemis.Add(new Ennemi());
+            return ennemis;
+        }
+
         #region  ================ Rendu graphique  ================
 
         // Afficher l'ennemi
